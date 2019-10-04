@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>sakila country Insert</title>
+<!-- 스타일시트 css 파일 import -->
+<link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+	<!-- 메뉴 시작 -->
+	<div id="aside">
+		<h1>MENU</h1>
+		<ul>
+			<li>
+				<div>Address 관리</div>
+				<!-- Address 관리 세부 메뉴 시작 -->
+				<ol>
+					<li><a href="/sakila/address/country.html">Country 관리</a></li>
+					<li><a href="">City 관리</a></li>
+					<li><a href="">Address 관리</a></li>
+				</ol><!-- Address 관리 세부 메뉴 끝 -->
+			</li>
+			<li><a href="">Customer 관리</a></li>
+			<li><a href="">Business 관리</a></li>
+			<li><a href="">Inventory 관리</a></li>
+		</ul>
+	</div>
+	<div id="section">
+		<h1>Country 관리</h1>
+		<h2>country 입력</h2>
+		<div>
+			<div>
+				country : <input type="text" id="country">
+			</div>
+			<div>
+				<button type="button" id="addCountry">추가</button>
+			</div>
+		</div>
+		<h2>country 목록 출력</h2>
+		<table border="">
+			<thead>
+			<tr>
+				<th>country_id</th>
+				<th>country</th>
+				<th>last_update</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+		<button type="button" id="preBtn">이전</button>
+		<button type="button" id="nextBtn">다음</button>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	let currentPage = 1;
+	$("#list").empty();
+	// 처음 페이지 열었을 때 목록 출력
+	$.ajax({
+		url: "/sakila/address/SelectCountryList",
+		method: "POST",
+		data : { currentPage : currentPage},
+		success : function(json){
+			console.log(json);
+			for(let i =0; i < json.length; i++){
+			let html = "<tr>";
+			html += "<td>"+json[i].countryId+"</td>";
+			html += "<td>"+json[i].country+"</td>";
+			html += "<td>"+json[i].lastUpdate+"</td>";
+			html += "</tr>";
+			$("#list").append(html);
+			}
+									
+		}
+	});				
+	//이전 버튼
+	$("#preBtn").click(function(){
+		if(currentPage === 1){
+			alert(" 현재 1페이지 입니다. 더 이상 앞으로 갈 수 없습니다.");
+			return;
+		}
+		currentPage -=1;
+		console.log(currentPage);
+		
+		$("#list").empty();
+		// 목록 출력
+		$.ajax({
+			url: "/sakila/address/SelectCountryList",
+			method: "POST",
+			data : { currentPage : currentPage},
+			success : function(json){
+				console.log(json);
+				for(let i =0; i < json.length; i++){
+				let html = "<tr>";
+				html += "<td>"+json[i].countryId+"</td>";
+				html += "<td>"+json[i].country+"</td>";
+				html += "<td>"+json[i].lastUpdate+"</td>";
+				html += "</tr>";
+				$("#list").append(html);
+				}
+										
+			}
+		});		
+	});
+	
+	// 다음 버튼
+	$("#nextBtn").click(function(){
+		let count = 0;
+		$.ajax({
+			url : "/sakila/addrerss/selectCountryCount",
+			method : "POST",
+			async : false,
+			success : function(json){
+				console.log(json);
+				count = Number(json);
+			}
+		});
+		
+		let lastPage = Math.ceil(count / 10);
+		if(currentPage == lastPage){
+			alert(" 현재 마지막페이지 입니다. 더 이상 다음으로 갈 수 없습니다.");
+			return;
+		}
+		
+		currentPage +=1;
+		console.log(currentPage);
+		
+		$("#list").empty();
+		// 목록 출력
+		$.ajax({
+			url: "/sakila/address/SelectCountryList",
+			method: "POST",
+			data : { currentPage : currentPage},
+			success : function(json){
+				console.log(json);
+				for(let i =0; i < json.length; i++){
+				let html = "<tr>";
+				html += "<td>"+json[i].countryId+"</td>";
+				html += "<td>"+json[i].country+"</td>";
+				html += "<td>"+json[i].lastUpdate+"</td>";
+				html += "</tr>";
+				$("#list").append(html);
+				}
+										
+			}
+		});		
+	});
+	//insert 버튼 클릭시 실행
+	$("#addCountry").click(function() { // 버튼 클릭시 클릭 함수가 실행된다.
+		console.log("#addCountry click!");
+		currentPage = 1;
+		console.log("country Value: ",$('#country').val()); // returns vaule data from where id is country
+		if($("#country").val() === ""){
+			alert("국가 이름을 입력해주세요");
+		}
+		
+		//html 요청 ->? ajax 요청 
+				
+		$.ajax({	
+			url : "/sakila/address/InsertCountry",
+			method: "POST",
+			data: {country: $("#country").val()},
+			success : function(){
+				console.log("succeed!");
+				$("#list").empty();
+				// 목록 출력
+				$.ajax({
+					url: "/sakila/address/SelectCountryList", 
+					method: "POST",
+					data : { currentPage : currentPage},
+					success : function(json){
+						console.log(json);
+						for(let i =0; i < json.length; i++){
+						let html = "<tr>";
+						html += "<td>"+json[i].countryId+"</td>";
+						html += "<td>"+json[i].country+"</td>";
+						html += "<td>"+json[i].lastUpdate+"</td>";
+						html += "</tr>";
+						$("#list").append(html);
+						}
+												
+					}
+				});				
+			}
+		});
+	});
+</script>
+</html>
