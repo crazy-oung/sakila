@@ -1,6 +1,8 @@
 package sakila.address.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,24 +15,20 @@ import com.google.gson.Gson;
 import sakila.address.model.CountryDao;
 import sakila.customer.model.Country;
 
-@WebServlet("/address/InsertCountry")
-public class InsertCountry extends HttpServlet {
+@WebServlet("/address/SelectCountryListAll")
+public class SelectCountryListAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CountryDao countryDao;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("::: InsertCountryServlet 실행 :::");
+		System.out.println(":::SelectCountryListAll 실행:::");
 		response.setContentType("application/json;charset=utf-8");
-		String country = request.getParameter("country");
-		System.out.println("country: "+country);
+		countryDao =  new CountryDao();
+		List<Country> list = new ArrayList<Country>();
 		
-		countryDao = new CountryDao();
-		Country c = new Country();
-		c.setCountry(country);
-		countryDao.insertCountry(c);
-		
+		list = countryDao.selectCountryListAll();
 		Gson gson = new Gson();
-		String jsonCount = gson.toJson(c);
-		response.getWriter().write(jsonCount);
+		String jsonStr = gson.toJson(list);
+		response.getWriter().write(jsonStr);
 	}
 
 }

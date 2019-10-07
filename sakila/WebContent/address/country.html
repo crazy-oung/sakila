@@ -7,24 +7,9 @@
 <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
-	<!-- 메뉴 시작 -->
-	<div id="aside">
-		<h1>MENU</h1>
-		<ul>
-			<li>
-				<div>Address 관리</div>
-				<!-- Address 관리 세부 메뉴 시작 -->
-				<ol>
-					<li><a href="/sakila/address/country.html">Country 관리</a></li>
-					<li><a href="">City 관리</a></li>
-					<li><a href="">Address 관리</a></li>
-				</ol><!-- Address 관리 세부 메뉴 끝 -->
-			</li>
-			<li><a href="">Customer 관리</a></li>
-			<li><a href="">Business 관리</a></li>
-			<li><a href="">Inventory 관리</a></li>
-		</ul>
-	</div>
+	<!-- 메뉴  -->
+	<div id="menu"></div>
+	<!-- 내용 -->
 	<div id="section">
 		<h1>Country 관리</h1>
 		<h2>country 입력</h2>
@@ -37,7 +22,7 @@
 			</div>
 		</div>
 		<h2>country 목록 출력</h2>
-		<table border="">
+		<table>
 			<thead>
 			<tr>
 				<th>country_id</th>
@@ -54,6 +39,10 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+	//menu 출력
+	$("#menu").load("../menu.html");	
+
+	
 	let currentPage = 1;
 	$("#list").empty();
 	// 처음 페이지 열었을 때 목록 출력
@@ -147,7 +136,7 @@
 		});		
 	});
 	//insert 버튼 클릭시 실행
-	$("#addCountry").click(function() { // 버튼 클릭시 클릭 함수가 실행된다.
+	$("#addCountry").click(function(){ // 버튼 클릭시 클릭 함수가 실행된다.
 		console.log("#addCountry click!");
 		currentPage = 1;
 		console.log("country Value: ",$('#country').val()); // returns vaule data from where id is country
@@ -178,11 +167,10 @@
 						html += "<td>"+json[i].lastUpdate+"</td>";
 						html += "</tr>";
 						$("#list").append(html);
-						}
-												
-					}
+						}												
+					}, 
 				});				
-			}
+			},
 		});
 	});
 </script>

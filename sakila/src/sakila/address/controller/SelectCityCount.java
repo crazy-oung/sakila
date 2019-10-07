@@ -10,26 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import sakila.address.model.CityDao;
 import sakila.address.model.CountryDao;
-import sakila.customer.model.Country;
 
-@WebServlet("/address/InsertCountry")
-public class InsertCountry extends HttpServlet {
+@WebServlet("/address/SelectCityCount")
+public class SelectCityCount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private CountryDao countryDao;
+	private CityDao cityDao;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("::: InsertCountryServlet 실행 :::");
-		response.setContentType("application/json;charset=utf-8");
-		String country = request.getParameter("country");
-		System.out.println("country: "+country);
-		
-		countryDao = new CountryDao();
-		Country c = new Country();
-		c.setCountry(country);
-		countryDao.insertCountry(c);
+		System.out.println("::: SelectCountryCount 실행 :::");
+		response.setContentType("application/json");
+		cityDao = new CityDao();
+		int count = cityDao.selectCityCount();
 		
 		Gson gson = new Gson();
-		String jsonCount = gson.toJson(c);
+		String jsonCount = gson.toJson(count);
+		System.out.println(jsonCount);
 		response.getWriter().write(jsonCount);
 	}
 
