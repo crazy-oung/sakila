@@ -1,29 +1,64 @@
-body {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-position: 0 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    position: relative;
-    overflow-y: auto;
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap&subset=korean');	
+
+body{
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	position: relative;
+	overflow-y: auto;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 #aside {
-    width: 200px;
-    height: 3000px;
-    position: fixed;
-    background: orange;
-    overflow: hidden;
-    float: left;
+	width: 220px;
+	height: 3000px;
+	position: fixed;
+	background: orange;
+	overflow: hidden;
+	float: left;
+	align : center;
+	align-content
 }
 
 #section {
-    margin-left: 300px;
-    margin-right: 500px;
-    margin-bottom: 100px;
-    background: white;
+	margin-left: 300px;
+	margin-right: 200px;
+	margin-bottom: 100px;
+	background: white;
+}
+tr, td{
+	border-top: 1px solid grey;
+}
+table{
+	border-top: 1px solid grey;
+	border-bottom: 1px solid grey;
+	width:100%
+}
+.t1{
+	font-size: small;
+	color: #804000;
+	text-indent: 2em;
+}
+a{
+	text-decoration:none;
+	font-weight: 500;
+	color:black;
+}
+a:hover{
+	font-weight: 700;
+	background-color: black;
+	color:orange;
+}
+
+li{
+	list-style : none;
+	list-style-position: inside;
+	letter-spacing: 5px;
+	text-indent: 1em;
 }
