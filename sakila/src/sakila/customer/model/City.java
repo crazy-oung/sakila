@@ -3,7 +3,7 @@ package sakila.customer.model;
 public class City {
 	private int cityId;
 	private String city;
-	private Country country;
+	private Country country;	// inner join country
 	private String lastUpdate;
 	
 	public int getCityId() {
