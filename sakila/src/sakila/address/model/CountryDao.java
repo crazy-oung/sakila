@@ -20,7 +20,7 @@ public class CountryDao {
 		ResultSet rs = null;
 		String sql = "select country, country_id from country order by country_id asc ";
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -55,7 +55,7 @@ public class CountryDao {
 		System.out.println("currnetPage: "+currentPage+" beginrow: "+beginRow);
 		String sql = "select * from country order by country_id desc limit ?,?";
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, ROW_PER_PAGE);
@@ -88,7 +88,7 @@ public class CountryDao {
 		PreparedStatement stmt = null;
 		String sql = "insert into country(country, last_update) values(?, now())";		
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, country.getCountry());
 			int row = stmt.executeUpdate();
@@ -112,7 +112,7 @@ public class CountryDao {
 		int count = 0;
 		String sql = "select count(*) from country";		
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);	
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()) {

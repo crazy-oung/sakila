@@ -1,33 +1,36 @@
 package sakila.customer.model;
 
 public class Customer {
-	private String customerId;
-	private String storeId;
+	private int customerId;
+	private int storeId;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String addressId;
-	private String active;
+	private int addressId;
+	private int active;
 	private String createDate;
-	public String getCustomerId() {
+	private String lastUpdate; 
+	
+	public int getCustomerId() {
 		return customerId;
 	}
-	public void setCustomerId(String customerId) {
+	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
+	
 	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", store_id=" + storeId
+		return "Customer [customerId=" + customerId + ", storeId=" + storeId
 				+ ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", addressId="
-				+ addressId + ", active=" + active + ", createDate=" + createDate + ", last_update=" + last_update
+				+ addressId + ", active=" + active + ", createDate=" + createDate + ", lastUpdate=" + lastUpdate
 				+ "]";
 	}
 
-	public String getStore_id() {
+	public int getStoreId() {
 		return storeId;
 	}
-	public void setStore_id(String store_id) {
-		this.storeId = store_id;
+	public void setStoreId(int storeId) {
+		this.storeId = storeId;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -47,16 +50,16 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAddressId() {
+	public int getAddressId() {
 		return addressId;
 	}
-	public void setAddressId(String addressId) {
+	public void setAddressId(int addressId) {
 		this.addressId = addressId;
 	}
-	public String getActive() {
+	public int getActive() {
 		return active;
 	}
-	public void setActive(String active) {
+	public void setActive(int active) {
 		this.active = active;
 	}
 	public String getCreateDate() {
@@ -65,11 +68,11 @@ public class Customer {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	public String getLast_update() {
-		return last_update;
+	public String getLastUpdate() {
+		return lastUpdate;
 	}
-	public void setLast_update(String last_update) {
-		this.last_update = last_update;
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
-	private String last_update;
+
 }

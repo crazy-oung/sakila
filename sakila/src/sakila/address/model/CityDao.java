@@ -20,7 +20,7 @@ public class CityDao {
 		ResultSet rs = null;
 		String sql = "SELECT city_id, city FROM city WHERE country_id = ?";
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, countryId);
 			rs = stmt.executeQuery();
@@ -57,7 +57,7 @@ public class CityDao {
 		String sql = "select ct.city, ct.city_id, ct.last_update, c.country, c.country_id, c.last_update"
 				+ " from city ct inner join country c on c.country_id = ct.country_id order by ct.city_id desc limit ?,?";
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, ROW_PER_PAGE);
@@ -94,7 +94,7 @@ public class CityDao {
 		PreparedStatement stmt = null;
 		String sql = "insert into city(city, last_update, country_id) values(?, now(), ?)";		
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, city.getCity());
 			stmt.setInt(2, city.getCountry().getCountryId());
@@ -119,7 +119,7 @@ public class CityDao {
 		int count = 0;
 		String sql = "select count(*) from city";		
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);	
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()) {

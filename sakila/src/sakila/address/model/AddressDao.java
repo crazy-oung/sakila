@@ -1,9 +1,6 @@
 package sakila.address.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class AddressDao {
 		ResultSet rs = null;
 		String sql = "SELECT address_id, address, address2, city_id, district, postal_code, phone, last_update  FROM address limit ?, ?";
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, countryId);
 			rs = stmt.executeQuery();
@@ -57,7 +54,7 @@ public class AddressDao {
 		String sql = "SELECT a.address_id, a.address, a.address2, c.city_id, a.district, a.postal_code, a.phone, a.last_update"
 				+ " FROM address a inner join city c on c.city_id = a.address_id order by a.address_id desc limit ?, ?";
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, ROW_PER_PAGE);
@@ -90,25 +87,29 @@ public class AddressDao {
 		return list;
 	}
 	
-	public int insertAddress(Address Address) {
+	public int insertAddress(Connection conn, Address Address) {
 		System.out.println("::: insertAddress실행 :::");
-		Connection conn = null;
+		int addressId = 0;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int row =0;
-		String sql = "insert into Address(address_id, address, address2, city_id, district, postal_code, phone, last_update)"
-				+ " values(?,?,?,?,?,?,?, now())";		
+		String sql = "insert into Address(address, address2, city_id, district, postal_code, phone, last_update)"
+				+ " values(?,?,?,?,?,?, now())";		
 		try {
-			conn = DBHelper.getConncetion();
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, Address.getAddressId());
-			stmt.setString(2, Address.getAddress());
-			stmt.setString(3, Address.getAddress2());
-			stmt.setInt(4, Address.getCity().getCityId());
-			stmt.setString(5, Address.getDistrict());
-			stmt.setString(6, Address.getPostalCode());
-			stmt.setString(7, Address.getPhone());
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, Address.getAddress());
+			stmt.setString(2, Address.getAddress2());
+			stmt.setInt(3, Address.getCity().getCityId());
+			stmt.setString(4, Address.getDistrict());
+			stmt.setString(5, Address.getPostalCode());
+			stmt.setString(6, Address.getPhone());
 			row = stmt.executeUpdate();
-			System.out.println(row);
+			System.out.println("영향을 받은 행:" + row);
+			rs =  stmt.getGeneratedKeys();
+			if(rs.next()) {
+				addressId = rs.getInt(1);
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -129,7 +130,7 @@ public class AddressDao {
 		int count = 0;
 		String sql = "select count(*) from Address";		
 		try {
-			conn = DBHelper.getConncetion();
+			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);	
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()) {

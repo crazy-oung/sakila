@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DBHelper {	
 	// db를 연결해주는 메소드
-	   public static Connection getConncetion() throws Exception{
+	   public static Connection getConnection() throws Exception{
 	       Class.forName("org.mariadb.jdbc.Driver");
 	       Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/sakila","root","java1234");
 	       return conn;

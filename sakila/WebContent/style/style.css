@@ -26,6 +26,10 @@ body{
 	align-content
 }
 
+#form{
+	border: none;
+}
+
 #section {
 	margin-left: 300px;
 	margin-right: 200px;
@@ -57,7 +61,7 @@ tr, td{
 	border-top: 1px solid grey;
 }
 
-tr:hover{
+.table-hover tr:hover{
 	background: orange;
 }
 
@@ -92,9 +96,11 @@ select{
 	border-radius: 7px;
 	background: orange;
 }
+
 option:hover{
 	font-weight: 800;
 }
+
 button{
 	font-size: medium;
 	font-family: 'Noto Sans KR', sans-serif;
