@@ -12,6 +12,39 @@ import sakila.customer.model.Country;
 
 public class CityDao {
 	
+	public List<City> selectCityListByCountry(int countryId){
+		System.out.println("::: selectCityListByCountry 실행 :::");
+		List<City> list = new ArrayList<City>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT city_id, city FROM city WHERE country_id = ?";
+		try {
+			conn = DBHelper.getConncetion();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, countryId);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				City c = new City();
+				c.setCityId(rs.getInt("city_id"));
+				c.setCity(rs.getString("city"));
+				list.add(c);
+			}			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+		}		
+		return list;
+	}
+	
 	public List<City> selectCityList(int currentPage){
 		System.out.println("::: selectCityList 실행 :::");
 		List<City> list = new ArrayList<City>();

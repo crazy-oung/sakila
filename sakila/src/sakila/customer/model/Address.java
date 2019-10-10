@@ -5,7 +5,7 @@ public class Address {
 	private String address;
 	private String address2;
 	private String district;
-	private String city;
+	private City city;
 	private String postalCode;
 	private String phone;
 	private String lastUpdate;
@@ -34,10 +34,10 @@ public class Address {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	public String getCity() {
+	public City getCity() {
 		return city;
 	}
-	public void setCity(String city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
 	public String getPostalCode() {

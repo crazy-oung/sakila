@@ -32,28 +32,44 @@ body{
 	margin-bottom: 100px;
 	background: white;
 }
-tr, td{
-	border-top: 1px solid grey;
-}
-table{
-	border-top: 1px solid grey;
-	border-bottom: 1px solid grey;
-	width:100%
-}
+
+
 .t1{
 	font-size: small;
 	color: #804000;
 	text-indent: 2em;
 }
+
 a{
 	text-decoration:none;
 	font-weight: 500;
 	color:black;
 }
+
 a:hover{
-	font-weight: 700;
+	font-weight: 800;
 	background-color: black;
 	color:orange;
+	font-size: larger;
+}
+
+tr, td{
+	border-top: 1px solid grey;
+}
+
+tr:hover{
+	background: orange;
+}
+
+table{
+	border-top: 1px solid grey;
+	border-bottom: 1px solid grey;
+	width:100%
+}
+
+thead, th{
+	background: orange;
+	font-weight: 600;
 }
 
 li{
@@ -61,4 +77,39 @@ li{
 	list-style-position: inside;
 	letter-spacing: 5px;
 	text-indent: 1em;
+}
+
+input{
+	font-size: medium;
+	font-family: 'Noto Sans KR', sans-serif;
+	border: none;
+	border-bottom: 2px solid orange;
+}
+
+select{
+	font-size: medium;
+	font-family: 'Noto Sans KR', sans-serif;
+	border-radius: 7px;
+	background: orange;
+}
+option:hover{
+	font-weight: 800;
+}
+button{
+	font-size: medium;
+	font-family: 'Noto Sans KR', sans-serif;
+	border : none;
+	font-weight: 500;
+	background: orange;	
+	letter-spacing: 5px;
+	cursor: pointer;
+	border-radius: 7px;
+	margin: 2px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+button:hover{
+	background: black;
+	color:orange;
 }
