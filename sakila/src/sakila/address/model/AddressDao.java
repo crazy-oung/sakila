@@ -9,23 +9,35 @@ import sakila.customer.model.Address;
 import sakila.customer.model.City;
 
 public class AddressDao {
-	public List<Address> selectAddressListByCountry(int countryId){
+	public List<Address> selectAddressListByCity(int cityId,int currentPage){
 		System.out.println("::: selectAddressListByCountry 실행 :::");
 		List<Address> list = new ArrayList<Address>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT address_id, address, address2, city_id, district, postal_code, phone, last_update  FROM address limit ?, ?";
+		int ROW_PER_PAGE = 20;
+		int beginRow = (currentPage -1)*ROW_PER_PAGE;
+		System.out.println("currnetPage: "+currentPage+" beginrow: "+beginRow);
+		String sql = "SELECT address_id, address, address2, city_id, district, postal_code, phone, last_update  FROM address where city_id =? order by address_id desc limit ?, ?";
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, countryId);
+			stmt.setInt(1, cityId);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, ROW_PER_PAGE);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				Address c = new Address();
-				c.setAddressId(rs.getInt("Address_id"));
-				c.setAddress(rs.getString("Address"));
-				list.add(c);
+				Address a = new Address();
+				a.setAddressId(rs.getInt("address_id"));
+				a.setAddress(rs.getString("address"));
+				a.setAddress2(rs.getString("address2"));
+				a.setCity(new City());
+				a.getCity().setCityId(rs.getInt("city_id"));
+				a.setDistrict(rs.getString("district"));
+				a.setPostalCode(rs.getString("postal_code"));
+				a.setPhone(rs.getString("phone"));
+				a.setLastUpdate(rs.getString("last_update"));
+				list.add(a);
 			}			
 			
 		}catch (Exception e) {
@@ -109,6 +121,7 @@ public class AddressDao {
 			rs =  stmt.getGeneratedKeys();
 			if(rs.next()) {
 				addressId = rs.getInt(1);
+				System.out.println("생성된 고객의 주소 번호:"+addressId);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

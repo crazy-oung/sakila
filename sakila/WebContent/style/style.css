@@ -63,6 +63,7 @@ tr, td{
 
 .table-hover tr:hover{
 	background: orange;
+	font-weight: 600;
 }
 
 table{

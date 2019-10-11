@@ -21,12 +21,19 @@
 					<!-- 국가 선택 -->
 						<select size="10" id="countryList">
 						</select>
+						
 					<!-- selecting city -->
 						<select size="10" id="cityList">
-						</select>					
+						</select>						
+				</td>
+				<td>
+					<p>country</p>
+					<input readonly id="countryId" placeholder="select country"><br>		
+					<p>city</p>		
+					<input readonly id="cityId" placeholder="select city ">
 				</td>
 				<td width="10%">
-					<button type="button" id="selectAddress"> 조회 > </button>
+					<button type="button" id="selectAddress" > search > </button>
 				</td>
 			</tr>
 		</table>
@@ -202,44 +209,35 @@
 		});		
 	});
 	
-	$("#addAddress").click(function(){
-		console.log("addAddress 버튼 clicked"); 
+	$("#selectAddress").click(function(){
+		console.log("selectAddress 버튼 clicked"); 
 		currentPage = 1;
 		if($("#cityId").val() === ""){
 			alert("도시를 지정해주세요 !");
 		}else{					
 			$.ajax({
-				url: "/sakila/address/InsertAddress",
+				url: "/sakila/address/SelectAddressListByCity",
 				method: "POST", 
-				data: {cityId: $("#city").val()},
+				data: {currentPage : currentPage, cityId: $("#cityId").val()},
 				success: function(json){
-					console.log("레고레고~");
+					console.log(json);
 					console.log("cityId: "+$("#cityId").val());
 					//비우고
-					$("#list").empty();
-					// 목록 출력
-					$.ajax({
-						url: "/sakila/address/SelectAddressList",
-						method: "POST",
-						data : { currentPage : currentPage},
-						success : function(json){
-							console.log(json);
-							$(json).each(function(index, item){
-								let html = "<tr>";
-								html += "<td>"+item.addressId+"</td>";
-								html += "<td>"+item.address+"</td>";
-								html += "<td>"+item.address2+"</td>";
-								html += "<td>"+item.city.cityId+"</td>";
-								html += "<td>"+item.district+"</td>";
-								html += "<td>"+item.postalCode+"</td>";
-								html += "<td>"+item.phone+"</td>";
-								html += "<td>"+item.lastUpdate+"</td>";
-								html += "</tr>";
-								$("#list").append(html);
-							})					
-						}
-					});	//ajax end	
-				},//success end
+					$("#list").empty();				
+					$(json).each(function(index, item){
+						let html = "<tr>";
+						html += "<td>"+item.addressId+"</td>";
+						html += "<td>"+item.address+"</td>";
+						html += "<td>"+item.address2+"</td>";
+						html += "<td>"+item.city.cityId+"</td>";
+						html += "<td>"+item.district+"</td>";
+						html += "<td>"+item.postalCode+"</td>";
+						html += "<td>"+item.phone+"</td>";
+						html += "<td>"+item.lastUpdate+"</td>";
+						html += "</tr>";
+						$("#list").append(html);
+					})					
+				}
 			});	// ajax end		
 		}//else end
 	});//click end
