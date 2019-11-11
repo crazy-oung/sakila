@@ -16,14 +16,18 @@ body{
 }
 
 #aside {
-	width: 220px;
+	margin-top : 30px;
+	margin-left : 30px;
+	width: 225px;
 	height: 3000px;
 	position: fixed;
 	background: orange;
 	overflow: hidden;
 	float: left;
 	align : center;
-	align-content
+	padding:15px;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+	border-radius: 20px;
 }
 
 #form{
@@ -31,10 +35,10 @@ body{
 }
 
 #section {
-	margin-left: 300px;
+	margin-left: 350px;
 	margin-right: 200px;
 	margin-bottom: 100px;
-	background: white;
+	background: white; 
 }
 
 
@@ -43,7 +47,13 @@ body{
 	color: #804000;
 	text-indent: 2em;
 }
-
+.a-title{
+	margin-top: 0;
+}
+.s-title{
+	margin-top: 0; 
+	padding-top: 25px;
+}
 a{
 	text-decoration:none;
 	font-weight: 500;
