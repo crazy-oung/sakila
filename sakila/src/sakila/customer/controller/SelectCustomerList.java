@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import sakila.customer.model.Customer;
-import sakila.customer.model.CustomerDao;
+import sakila.customer.model.CustomerDao; 
 
 @WebServlet("/customer/SelectCustomerList")
 public class SelectCustomerList extends HttpServlet {

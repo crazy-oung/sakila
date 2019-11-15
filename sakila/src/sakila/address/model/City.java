@@ -1,4 +1,4 @@
-package sakila.customer.model;
+package sakila.address.model;
 
 public class City {
 	private int cityId;

@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import sakila.customer.model.Address;
-import sakila.customer.model.City;
+import sakila.address.model.Address;
+import sakila.address.model.City;
 import sakila.customer.model.Customer;
 import sakila.customer.service.CustomerService;
 

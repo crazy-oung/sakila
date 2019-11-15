@@ -3,8 +3,8 @@ package sakila.customer.service;
 import java.sql.Connection;
 
 import db.DBHelper;
+import sakila.address.model.Address;
 import sakila.address.model.AddressDao;
-import sakila.customer.model.Address;
 import sakila.customer.model.Customer;
 import sakila.customer.model.CustomerDao;
 

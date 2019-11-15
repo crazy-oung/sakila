@@ -11,7 +11,8 @@
 	<div id="menu"></div>
 	<!-- 내용 -->
     <div id="section">
-    <h1 class="s-title">INDEX</h1>
+    <h1>INDEX</h1>
+    <hr>
 	  <!-- 테이블 목록 -->
 	  <h2>sakila 데이터베이스 테이블 정보</h2>
 	  <table class="table-hover" style="width:40%">
@@ -52,15 +53,15 @@
 	  		</tr>
 	  		<tr>
 	  			<td>film_actor</td>
-	  			<td><span id="film_actorRow"></span></td>
+	  			<td><span id="filmActorRow"></span></td>
 	  		</tr>
 	  		<tr>
 	  			<td>film_category</td>
-	  			<td><span id="film_categoryRow"></span></td>
+	  			<td><span id="filmCategoryRow"></span></td>
 	  		</tr>
 	  		<tr>
 	  			<td>film_text</td>
-	  			<td><span id="film_textRow"></span></td>
+	  			<td><span id="filmTextRow"></span></td>
 	  		</tr>
 	  		<tr>
 	  			<td>inventory</td>
@@ -104,8 +105,22 @@
 	method: "post",
 	success: function(json){
 		console.log(json);
-		$("#countryRow").text(json.countryRow);
+		$("#actorRow").text(json.actorRow);
+		$("#addressRow").text(json.addressRow);
+		$("#categoryRow").text(json.categoryRow);
 		$("#cityRow").text(json.cityRow);
+		$("#countryRow").text(json.countryRow);
+		$("#customerRow").text(json.customerRow);
+		$("#filmRow").text(json.filmRow);
+		$("#filmActorRow").text(json.filmActorRow);
+		$("#filmCategoryRow").text(json.filmCategoryRow);
+		$("#filmTextRow").text(json.filmTextRow);
+		$("#inventoryRow").text(json.inventoryRow);
+		$("#languageRow").text(json.languageRow);
+		$("#paymentRow").text(json.paymentRow);
+		$("#rentalRow").text(json.rentalRow);
+		$("#staffRow").text(json.staffRow);
+		$("#storeRow").text(json.storeRow); 
 	}
 	});
 </script>

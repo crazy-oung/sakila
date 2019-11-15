@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import sakila.address.model.City;
 import sakila.address.model.CityDao;
+import sakila.address.model.Country;
 import sakila.address.model.CountryDao;
-import sakila.customer.model.City;
-import sakila.customer.model.Country;
 
 @WebServlet("/address/InsertCity")
 public class InsertCity extends HttpServlet {

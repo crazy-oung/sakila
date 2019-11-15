@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import sakila.address.model.Country;
 import sakila.address.model.CountryDao;
-import sakila.customer.model.Country;
 
 @WebServlet("/address/InsertCountry")
 public class InsertCountry extends HttpServlet {

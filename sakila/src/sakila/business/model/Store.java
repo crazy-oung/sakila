@@ -1,6 +1,6 @@
 package sakila.business.model;
 
-import sakila.customer.model.Address;
+import sakila.address.model.Address;
 
 public class Store {
 	private String StoreId;

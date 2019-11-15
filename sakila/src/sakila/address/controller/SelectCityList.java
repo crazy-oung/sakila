@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import sakila.address.model.City;
 import sakila.address.model.CityDao;
-import sakila.customer.model.City;
 
 @WebServlet("/address/SelectCityList")
 public class SelectCityList extends HttpServlet {

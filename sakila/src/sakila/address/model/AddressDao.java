@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.DBHelper;
-import sakila.customer.model.Address;
-import sakila.customer.model.City;
 
 public class AddressDao {
 	public List<Address> selectAddressListByCity(int cityId,int currentPage){
@@ -141,7 +139,7 @@ public class AddressDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		int count = 0;
-		String sql = "select count(*) from Address";		
+		String sql = "select count(*) from address";		
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);	

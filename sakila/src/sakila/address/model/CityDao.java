@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 import db.DBHelper;
-import sakila.customer.model.City;
-import sakila.customer.model.Country;
 
 public class CityDao {
 	
