@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>sakila city Insert</title>
+<!-- 스타일시트 css 파일 import -->
+<link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+	<!-- 메뉴  -->
+	<div id="menu"></div>
+	<!-- 내용 -->
+	<div id="section">
+		<h1>도시</h1>
+		<hr>
+		<!-- 도시 추가 -->
+		<h2>도시 추가</h2>
+		<div>
+			<div>
+				<!-- 국가 선택 -->
+				<div>
+					<select size="10" id="countryList">
+					</select>
+				</div>
+				<!-- 정보 입력 -->
+				country id: <input type="text" id="countryId" readonly>
+				city : <input type="text" id="city">
+				<button type="button" id="addCity"> insert > </button>
+			</div>
+		</div>
+		<hr>
+		<h2>도시 목록 조회</h2>
+		<table>
+			<thead>
+			<tr>
+				<th>city_id</th>
+				<th>city</th>
+				<th>last_update</th>
+				<th>country_id</th>
+				<th>country</th>
+				<th>last_update</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+		<button type="button" id="preBtn">이전</button>
+		<button type="button" id="nextBtn">다음</button>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	//menu 출력
+	$("#menu").load("../menu.html");	
+	let currentPage = 1;	
+	$("#list").empty();
+	// 처음 페이지 열었을 때 목록 출력
+	$.ajax({
+		url: "/sakila/address/SelectCityList",
+		method: "POST",
+		data : { currentPage : currentPage},
+		success : function(json){
+			console.log(json);
+			for(let i =0; i < json.length; i++){
+			let html = "<tr>";
+			html += "<td>"+json[i].cityId+"</td>";
+			html += "<td>"+json[i].city+"</td>";
+			html += "<td>"+json[i].lastUpdate+"</td>";
+			html += "<td>"+json[i].country.countryId+"</td>";
+			html += "<td>"+json[i].country.country+"</td>";
+			html += "<td>"+json[i].country.lastUpdate+"</td>";
+			html += "</tr>";
+			$("#list").append(html);
+			}									
+		}
+	});				
+	//이전 버튼
+	$("#preBtn").click(function(){
+		if(currentPage === 1){
+			alert(" 현재 1페이지 입니다. 더 이상 앞으로 갈 수 없습니다.");
+			return;
+		}
+		currentPage -=1;
+		console.log(currentPage);
+		
+		$("#list").empty();
+		// 목록 출력
+		$.ajax({
+			url: "/sakila/address/SelectCityList",
+			method: "POST",
+			data : { currentPage : currentPage},
+			success : function(json){
+				console.log(json);
+				for(let i =0; i < json.length; i++){
+				let html = "<tr>";
+				html += "<td>"+json[i].cityId+"</td>";
+				html += "<td>"+json[i].city+"</td>";
+				html += "<td>"+json[i].lastUpdate+"</td>";
+				html += "<td>"+json[i].country.countryId+"</td>";
+				html += "<td>"+json[i].country.country+"</td>";
+				html += "<td>"+json[i].country.lastUpdate+"</td>";
+				html += "</tr>";
+				$("#list").append(html);
+				}										
+			}
+		});		
+	});
+	
+	// 다음 버튼
+	$("#nextBtn").click(function(){
+		let count = 0;
+		$.ajax({
+			url : "/sakila/address/SelectCityCount",
+			method : "POST",
+			async : false,
+			success : function(json){
+				console.log(json);
+				count = Number(json);
+			}
+		});
+		
+		let lastPage = Math.ceil(count / 10);
+		if(currentPage == lastPage){
+			alert(" 현재 마지막페이지 입니다. 더 이상 다음으로 갈 수 없습니다.");
+			return;
+		}
+		
+		currentPage +=1;
+		console.log(currentPage);
+		
+		$("#list").empty();
+		// 목록 출력
+		$.ajax({
+			url: "/sakila/address/SelectCityList",
+			method: "POST",
+			data : { currentPage : currentPage},
+			success : function(json){
+				console.log(json);
+				for(let i =0; i < json.length; i++){
+				let html = "<tr>";
+				html += "<td>"+json[i].cityId+"</td>";
+				html += "<td>"+json[i].city+"</td>";
+				html += "<td>"+json[i].lastUpdate+"</td>";
+				html += "<td>"+json[i].country.countryId+"</td>";
+				html += "<td>"+json[i].country.country+"</td>";
+				html += "<td>"+json[i].country.lastUpdate+"</td>";
+				html += "</tr>";
+				$("#list").append(html);
+				}					
+			}
+		});		
+	});
+	
+	$.ajax({
+		url:"/sakila/address/SelectCountryListAll",
+		method: "POST",
+		success: function(json){
+			console.log(json);
+			$("#countryList").empty();
+			for(let c of json){
+				$("#countryList").append("<option value = '"+c.countryId+"'>"+c.country+"</option>");
+			}
+		}
+	});
+	
+	// 나라 선택시 나라 번호 출력 countryList에 변화가 생기면
+	$("#countryList").change(function(){
+		$("#countryId").val($("#countryList").val());	// countryId값이 있을 장소에 countryList의 값을 넣는다.
+	});
+	
+	$("#addCity").click(function(){
+		console.log("addCity 버튼 clicked"); 
+		currentPage = 1;
+		if($("#countryId").val() === "" || $("#city").val() === ""){
+			alert("공백을 채워주세요 !");
+		}else{					
+			$.ajax({
+				url: "/sakila/address/InsertCity",
+				method: "POST", 
+				data: {countryId:$("#countryId").val(), city: $("#city").val()},
+				success: function(json){
+					console.log("레고레고~");
+					console.log("countryId: "+$("#countryId").val()+"city: "+$("#city").val());
+					//비우고
+					$("#list").empty();
+					// 목록 출력
+					$.ajax({
+						url: "/sakila/address/SelectCityList",
+						method: "POST",
+						data : { currentPage : currentPage},
+						success : function(json){
+							console.log(json);
+							for(let i =0; i < json.length; i++){
+								let html = "<tr>";
+								html += "<td>"+json[i].cityId+"</td>";
+								html += "<td>"+json[i].city+"</td>";
+								html += "<td>"+json[i].lastUpdate+"</td>";
+								html += "<td>"+json[i].country.countryId+"</td>";
+								html += "<td>"+json[i].country.country+"</td>";
+								html += "<td>"+json[i].country.lastUpdate+"</td>";
+								html += "</tr>";
+								$("#list").append(html);
+							}//for end					
+						} //success end
+					});	//ajax end	
+				},//success end
+			});	// ajax end		
+		}//else end
+	});//click end
+	 
+</script>
+</html>

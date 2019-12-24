@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sakila : 대시보드</title>
+<!-- 스타일시트 css 파일 import -->
+<link rel="stylesheet" href="./style/hi.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+	<div class="columns" style="margin:0; height: 100%">
+		<!-- 메뉴 -->
+		<div class="column is-2 notification card is-peachy" style="margin:0;">
+			<section class="section">
+			    <div id="menu"></div>
+			</section>
+		</div>
+		<!-- 내용 -->
+		<div class="column">
+			 <nav class="breadcrumb notification is-lighter-peachy" aria-label="breadcrumbs">
+			  <ul>
+			    <li><a href="./sakilaIndex.html">HOME</a></li>
+			    <li class="is-active"><a href="#" aria-current="page">대시보드</a></li>
+			  </ul>
+			 </nav>
+			 <section class="is-content">
+			  <h1 class="title is-4 is-spaced">🚧 대시보드</h1>
+			  <h1 class="subtitle is-6"><span class="tag is-warning"><b>Sakila</b></span>&nbsp;이용 현황 및 고객 정보 현황</h1>
+			  <hr>
+			  <nav class="level is-mobile">
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="sub-title is-6">고객수</p>
+				    <p class="title is-1" id="customer"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="sub-title is-6">보유 영화</p>
+				    <p class="title is-1" id="film"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="sub-title is-6">총 대여횟수</p>
+				    <p class="title is-1" id="rental"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="sub-title is-6">결제 완료</p>
+				    <p class="title is-1" id="payment"></p>
+				  </div>
+				</div>
+			  </nav>
+			  <hr>
+			  <!-- 테이블 정보 -->
+			  <h1 class="title is-5 has-text-centered is-danger">데이터 베이스 테이블 정보 수</h1>
+			  <nav class="level is-mobile">
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">actor</p>
+				    <p class="title" id="actorRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">address</p>
+				    <p class="title" id="addressRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">category</p>
+				    <p class="title" id="categoryRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">city</p>
+				    <p class="title" id="cityRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">country</p>
+				    <p class="title" id="countryRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">customer</p>
+				    <p class="title" id="customerRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">film</p>
+				    <p class="title" id="filmRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">film_actor</p>
+				    <p class="title" id="filmActorRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">film_category</p>
+				    <p class="title" id="filmCategoryRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">film_text</p>
+				    <p class="title" id="filmTextRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">inventory</p>
+				    <p class="title" id="inventoryRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">language</p>
+				    <p class="title" id="languageRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">payment</p>
+				    <p class="title" id="paymentRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">rental</p>
+				    <p class="title" id="rentalRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">staff</p>
+				    <p class="title" id="staffRow"></p>
+				  </div>
+				</div>
+				<div class="level-item has-text-centered">
+				  <div>
+				    <p class="heading">store</p>
+				    <p class="title" id="storeRow"></p>
+				  </div>
+				</div>
+			</nav>
+			<hr>
+			<div class="columns">
+				
+				<!-- 뷰 목록 -->
+				<div class="column">
+					<div class="box">
+					  <table class="table table-hover is-hoverable is-fullwidth">
+					  	<thead>
+					  		<tr>
+						  		<th width="80%">뷰 네임</th>
+						  		<th> 데이터 수  </th>	  	
+					  		</tr>	
+					  	</thead>
+					  	<tbody>
+					  		<tr>
+					  			<td>actor</td>
+					  			<td><span id="actorRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>address</td>
+					  			<td><span id="addressRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>category</td>
+					  			<td><span id="categoryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>city</td>
+					  			<td><span id="cityRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>country</td>
+					  			<td><span id="countryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>customer</td>
+					  			<td><span id="customerRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film</td>
+					  			<td><span id="filmRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film_actor</td>
+					  			<td><span id="filmActorRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film_category</td>
+					  			<td><span id="filmCategoryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film_text</td>
+					  			<td><span id="filmTextRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>inventory</td>
+					  			<td><span id="inventoryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>language</td>
+					  			<td><span id="languageRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>payment</td>
+					  			<td><span id="paymentRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>rental</td>
+					  			<td><span id="rentalRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>staff</td>
+					  			<td><span id="staffRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>store</td>
+					  			<td><span id="storeRow"></span></td>
+					  		</tr>
+					  	</tbody>
+					  </table>
+					</div>
+				 </div><!--  뷰 끝 --> 
+				
+				<!-- 트리거 프로시져 목록 -->
+				<div class="column">
+					<div class="box is-primary">
+					  <!-- 뷰 목록 -->
+					  <table class="table table-hover is-fullwidth is-hoverable">
+					  	<thead>
+					  		<tr>
+						  		<th width="80%">프로시저 네임</th>
+						  		<th class="is-center"> 데이터 수  </th>	  	
+					  		</tr>	
+					  	</thead>
+					  	<tbody>
+					  		<tr>
+					  			<td>actor</td>
+					  			<td><span id="actorRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>address</td>
+					  			<td><span id="addressRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>category</td>
+					  			<td><span id="categoryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>city</td>
+					  			<td><span id="cityRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>country</td>
+					  			<td><span id="countryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>customer</td>
+					  			<td><span id="customerRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film</td>
+					  			<td><span id="filmRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film_actor</td>
+					  			<td><span id="filmActorRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film_category</td>
+					  			<td><span id="filmCategoryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>film_text</td>
+					  			<td><span id="filmTextRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>inventory</td>
+					  			<td><span id="inventoryRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>language</td>
+					  			<td><span id="languageRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>payment</td>
+					  			<td><span id="paymentRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>rental</td>
+					  			<td><span id="rentalRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>staff</td>
+					  			<td><span id="staffRow"></span></td>
+					  		</tr>
+					  		<tr>
+					  			<td>store</td>
+					  			<td><span id="storeRow"></span></td>
+					  		</tr>
+					  	</tbody>
+					  </table>
+					</div>
+				</div><!--  뷰 끝 -->
+			</div>
+			<hr>
+		  </section>
+		  <div id="foot"></div>
+		</div><!-- 내용 끝 -->
+	</div><!-- columns 끝 -->
+	
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="js/sakilaCRM.js"></script>
+<script src="js/countUp.min.js"></script>
+<script>
+
+	$.ajax({
+	url : "/sakila/IndexController",
+	method: "post",
+	success: function(json){
+		console.log(json);
+		countUp("film", json.filmRow);
+		countUp("customer", json.customerRow);
+		countUp("rental", json.rentalRow);
+		countUp("payment", json.paymentRow);
+		
+		$("#actorRow").text(json.actorRow);
+		$("#addressRow").text(json.addressRow);
+		$("#categoryRow").text(json.categoryRow);
+		$("#cityRow").text(json.cityRow);
+		$("#countryRow").text(json.countryRow);
+		$("#customerRow").text(json.customerRow);
+		$("#filmRow").text(json.filmRow);		
+		$("#filmActorRow").text(json.filmActorRow);
+		$("#filmCategoryRow").text(json.filmCategoryRow);
+		$("#filmTextRow").text(json.filmTextRow);
+		$("#inventoryRow").text(json.inventoryRow);
+		$("#languageRow").text(json.languageRow);
+		$("#paymentRow").text(json.paymentRow);
+		$("#rentalRow").text(json.rentalRow);
+		$("#staffRow").text(json.staffRow);
+		$("#storeRow").text(json.storeRow); 
+	}
+	});
+
+
+	function countUp(id, value){
+		if(value-200 < 0){
+			first=0
+		}else{
+			first= value-200;
+		}
+		options = {
+				  startVal: first,
+				  duration: 3,
+		};
+		console.log(options)
+		let countUp = new CountUp(id, value, options);
+		if (!countUp.error) {
+		  countUp.start();
+		} else {
+		  console.error(countUp.error);
+		} 
+	}	
+
+		
+</script>
+</html>

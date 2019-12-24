@@ -19,15 +19,15 @@ body{
 	margin-top : 10px;
 	margin-left : 50px;
 	width: 225px;
-	height: 3000px;
+	height: 100%;
 	position: fixed;
-	background: orange;
+	background: linear-gradient(to top right, #ff9999 0%, #ffcc99 100%);
 	overflow: hidden;
 	float: left;
 	align : center;
 	padding:15px;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-	border-radius: 20px;
+	border-radius: 15px;
 }
 
 #form{
@@ -63,7 +63,7 @@ a{
 a:hover{
 	font-weight: 800;
 	background-color: black;
-	color:orange;
+	color: #ff9999;
 	font-size: larger;
 }
 
@@ -71,10 +71,6 @@ tr, td{
 	border-top: 1px solid grey;
 }
 
-.table-hover tr:hover{
-	background: orange;
-	font-weight: 600;
-}
 
 table{
 	border-top: 1px solid grey;
@@ -82,8 +78,12 @@ table{
 	width:100%
 }
 
+.table-hover tr:hover{
+	background: #ffcc99;
+	font-weight: 600;
+}
 thead, th{
-	background: orange;
+	background: #ffcc99;
 	font-weight: 600;
 }
 
@@ -98,14 +98,17 @@ input{
 	font-size: medium;
 	font-family: 'Noto Sans KR', sans-serif;
 	border: none;
-	border-bottom: 2px solid orange;
+	border-bottom: 2px solid #ffcc99;
+}
+input:focus {
+	outline:none;
 }
 
 select{
 	font-size: medium;
 	font-family: 'Noto Sans KR', sans-serif;
 	border-radius: 7px;
-	background: orange;
+	background: #ffcc99;
 }
 
 option:hover{
@@ -117,16 +120,17 @@ button{
 	font-family: 'Noto Sans KR', sans-serif;
 	border : none;
 	font-weight: 500;
-	background: orange;	
+	background: #ffcc99;	
 	letter-spacing: 5px;
 	cursor: pointer;
 	border-radius: 7px;
 	margin: 2px;
 	padding-left: 15px;
 	padding-right: 15px;
+	padding-bottom: 5px;
 }
 
 button:hover{
 	background: black;
-	color:orange;
+	color:#ffcc99;
 }

@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap');
+
+body{
+	height: 100%;
+	width: 100%;
+}
+* {
+	font-family: 'Noto Sans KR', sans-serif !important;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: rgba(255, 204, 153, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #ffb399;
+	border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #ff9999;
+}
+
+::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {
+	height: 0px;
+	background: #ffb399;
+}
+
+::selection {
+	background: #ffcc99;
+	color: #000000;
+}
+
+/* a 태그 */
+a{
+	text-decoration:none !important;
+	color: black !importants;
+}
+a:hover{
+	font-weight: 500;
+	color: black !importants;
+}
+
+/* 고정 */
+.fixed{
+	position: fixed !important;
+}
+.is-content{
+	padding: 1rem 1rem !important;
+}
+
+/* table 태그 스타일 */
+thead, th{
+	background: #ffcc99;
+	font-weight: 600;
+}
+.table-hover tr:hover{
+	background: #ffcc99;
+	font-weight: 600;
+}
+
+.is-peachy{
+	background: linear-gradient(to top right, #ff9999 0%, #ffcc99 100%);
+}
+.is-lighter-peachy{
+	background: rgba(255, 179, 153, 0.3) !important;
+}
