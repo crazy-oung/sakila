@@ -30,12 +30,12 @@
 			  <h1 class="title is-4 is-spaced">🏠 주소 관리</h1>
 			  <h1 class="subtitle is-6">국가/도시 선택 검색</h1>
 				<!-- 국가 선택 -->
-				<div class="select is-multiple">
-					<select multiple size="10" id="countryList"></select>
+				<div class="select">
+					<select id="countryList"></select>
 				</div>
 				<!-- selecting city -->
-				<div class="select is-multiple" id="citys">
-					<select multiple size="10" id="cityList"></select>
+				<div class="select" id="citys">
+					<select id="cityList"></select>
 				</div>	
 				<button type="button" class="button" id="selectAddress"> 검색 </button>
 			  <hr>
@@ -223,16 +223,16 @@
 	$("#selectAddress").click(function(){
 		console.log("selectAddress 버튼 clicked"); 
 		currentPage = 1;
-		if($("#cityId").val() === ""){
+		if($("#cityList").val() === ""){
 			alert("도시를 지정해주세요 !");
 		}else{					
 			$.ajax({
 				url: "/sakila/address/SelectAddressListByCity",
 				method: "POST", 
-				data: {currentPage : currentPage, cityId: $("#cityId").val()},
+				data: {currentPage : currentPage, cityId: $("#cityList").val()},
 				success: function(json){
 					console.log(json);
-					console.log("cityId: "+$("#cityId").val());
+					console.log("cityList: "+$("#cityList").val());
 					//비우고
 					$("#list").empty();				
 					$(json).each(function(index, item){

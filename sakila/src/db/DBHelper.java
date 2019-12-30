@@ -9,7 +9,10 @@ public class DBHelper {
 	// db를 연결해주는 메소드
 	   public static Connection getConnection() throws Exception{
 	       Class.forName("org.mariadb.jdbc.Driver");
+	       // cafe24 db
 	       Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/sakila","root","java1234");
+	       // test db
+//	       Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/crazyoung","crazyoung","gksekdud5610@");
 	       return conn;
 	   }
 	   

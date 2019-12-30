@@ -42,7 +42,6 @@ a{
 }
 a:hover{
 	font-weight: 500;
-	color: black !importants;
 }
 
 /* 고정 */
@@ -51,6 +50,7 @@ a:hover{
 }
 .is-content{
 	padding: 1rem 1rem !important;
+	min-height: 100vh !important;
 }
 
 /* table 태그 스타일 */
@@ -65,6 +65,7 @@ thead, th{
 
 .is-peachy{
 	background: linear-gradient(to top right, #ff9999 0%, #ffcc99 100%);
+	min-height: 100vh !important;
 }
 .is-lighter-peachy{
 	background: rgba(255, 179, 153, 0.3) !important;

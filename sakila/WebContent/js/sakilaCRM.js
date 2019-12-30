@@ -2,7 +2,7 @@ $('#menu').append(
 		"<aside class='menu'>"+
 		"<h1 class='title is-4'><span class='tag is-warning title is-6'><b>Sakila</b></span> CRM 👾</h1>"+
 		"<p class='menu-label'>Home</p>"+
-		"<ul class='menu-list'><li><a href='/sakila/sakilaIndex.html'>🚧 대시보드</a></li></ul>"+
+		"<ul class='menu-list'><li><a href='/sakila/home.html'>🚧 대시보드</a></li></ul>"+
 		"<p class='menu-label'>Address</p>"+
 		"<ul class='menu-list'>"+
 		"<li><a href='/sakila/address/country.html'>🌍 국가 관리</a></li>"+
@@ -36,7 +36,7 @@ $("#foot").append(
 		'<div class="content has-text-centered">'+
 		'<p>'+
 		'<strong><span class="tag is-warning"><b>Sakila</b></span> CRM 👾</strong> by <a href="https://github.com/crazy-oung">Dayoung Han</a>.<br>'+
-		' Made studying <a href="https://bulma.io/">BULMA</a>. Sample DataBase from <a href="https://dev.mysql.com/doc/sakila/en/">here</a>.'+
+		' Made with <a href="https://bulma.io/">BULMA</a>. DataBase from <a href="https://dev.mysql.com/doc/sakila/en/">here</a>.'+
 		'</p>'+
 		'</div>'+
 		'</footer>');
