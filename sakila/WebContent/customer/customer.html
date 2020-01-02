@@ -2,86 +2,102 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sakila customer Insert</title>
+<title>Sakila : 고객 관리</title>
 <!-- 스타일시트 css 파일 import -->
-<link rel="stylesheet" href="../style/style.css">
+<link rel="stylesheet" href="../style/hi.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
-	<!-- 메뉴  -->
-	<div id="menu"></div>
-	<!-- 내용 -->
-	<div id="section">
-		<h1>고객</h1>
-		<hr>
-		<!-- 고객 추가 -->
-			<!-- 고객 주소 -->
+<div class="columns" style="margin:0; height: 100%">
+		<!-- 메뉴 -->
+		<div class="column is-2 notification card is-peachy" style="margin:0;">
+			<section class="section">
+			    <div id="menu"></div>
+			</section>
+		</div>
+		<!-- 내용 -->
+		<div class="column">
+			 <nav class="breadcrumb notification is-lighter-peachy" aria-label="breadcrumbs">
+			  <ul>
+			    <li><a href="#">CUSTOMER</a></li>
+			    <li class="is-active"><a href="#" aria-current="page">고객관리</a></li>
+			  </ul>
+			 </nav>
+			 
+			<section class="is-content">
+	   	 	<h1 class="title is-4 is-spaced">👥 고객 관리</h1>
 			<h2>고객 정보 기입</h2>
-			<table id="form">
-				<td width="50%">
-					<!-- 국가 선택 -->
-						<select size="10" id="countryList">
-						</select>
-					<!-- selecting city -->
-						<select size="10" id="cityList">
-						</select>					
-				</td>		
-				<td width="20%">
-					<form><fieldset>
-						<legend>address</legend>					
-						country_id <br><input type="text" id="countryId" readonly><hr>
-						city_id <br><input type="text" id="cityId" readonly><hr>
-						address <br><input type="text" id="address" ><hr>
-						address2 <br><input type="text" id="address2" ><hr>
-						district <br><input type="text" id="district" ><hr>
-						postal_code <br><input type="text" id="postalCode" ><hr>
-						phone <br><input type="text" id="phone" >
-						</fieldset>
-					</form>						
-				</td>
-				<td width="20%">		
-					<form><fieldset>
-						<legend>information</legend>	
-						storId <br>
+			<hr>
+			<input class="input" type="text" id="countryId" style="display:none">
+			<input class="input"type="text" id="cityId" style="display:none">
+			<div class="columns">
+ 				<div class="column">
+ 					<!-- 국가 선택 -->
+					국가<br>
+					<div class="select">
+						<select id="countryList"></select>
+					</div><br><hr>
+					주소 <br><input class="input"type="text" id="address" ><hr>
+					지구 <br><input class="input"type="text" id="district" ><hr>
+					우편번호 <br><input class="input"type="text" id="postalCode" ><hr>
+					성 <br><input class="input" type="text" id="lastName" ><hr>
+					이메일 <br><input class="input" type="text" id="email" >		
+ 				</div>
+ 				<div class="column">
+					<!-- 도시 선택 -->
+					도시<br>
+					<div class="select" id="citys">
+						<select id="cityList"></select>
+					</div><br><hr>
+					상세주소 <br><input class="input"type="text" id="address2" ><hr>
+					번호 <br><input class="input"type="text" id="phone" ><hr>
+					지점<br>
+					<div class="select">
 						<select id="storeId">
 							<option value="1">1</option>
 							<option value="2">2</option>
-						</select><hr>
-						first_name <br><input type="text" id="firstName" ><hr>
-						last_name <br><input type="text" id="lastName" ><hr>
-						email <br><input type="text" id="email" >		
-					</fieldset></form>		
-				</td>
-				<td width="10%">
-					<button type="button" id="addCustomer"> insert > </button>
-				</td>
-		</table>
+						</select>
+					</div><hr>
+					이름 <br><input class="input" type="text" id="firstName" ><hr>
+					<br>
+					<button type="button" class="button is-danger is-light is-fullwidth is-rounded" id="addCustomer"> 회원등록 </button>
+ 				</div>
+ 			</div>
+			
+
+		
 		<hr>
-		<h2>고객 목록 조회</h2>
-		<table class="table-hover">
+		<h2 class="title is-5 has-text-centered">고객 조회</h2>
+		<table class="table-hover is-hoverable is-fullwidth table is-bordered">
 			<thead>
 			<tr>
-				<th>customer_id</th>
-				<th>first_name</th>
-				<th>last_name</th>
-				<th>store_id</th>
-				<th>active</th>
-				<th>email</th>
-				<th>create_date</th>
-				<th>last_update</th>
-				<th>address_id</th>
+				<th class="has-text-centered">번호</th>
+				<th class="has-text-centered">이름</th>
+				<th class="has-text-centered">성</th>
+				<th class="has-text-centered">지점</th>
+				<th class="has-text-centered">활동</th>
+				<th class="has-text-centered">이메일</th>
+				<th class="has-text-centered">생성일</th>
+				<th class="has-text-centered">마지막 수정</th>
+				<th class="has-text-centered">주소번호</th>
 			</tr>
 			</thead>
 			<tbody id="list">
 			</tbody>
 		</table>
-		<button type="button" id="preBtn">이전</button>
-		<button type="button" id="nextBtn">다음</button>
+		<button type="button" class="button" id="preBtn">이전</button>
+		<button type="button" class="button" id="nextBtn">다음</button>
+		</section>
+		<div id="foot"></div>
 	</div>
+</div>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="../js/sakilaCRM.js"></script>
 <script>
-	//menu 출력
-	$("#menu").load("../menu.html");	
 	let currentPage = 1;	
 	
 	// country 목록 출력
@@ -120,6 +136,7 @@
 			}
 		});
 	});
+	
 	// 도시 선택시 도시 번호 출력 
 	$("#cityList").change(function(){
 		$("#cityId").val($("#cityList").val());
@@ -261,28 +278,7 @@
 					//비우고
 					$("#list").empty();
 					// 목록 출력
-					$.ajax({
-						url: "/sakila/customer/SelectCustomerList",
-						method: "POST",
-						data : { currentPage : currentPage},
-						success : function(json){
-							console.log(json);
-							$(json).each(function(index, item){
-								let html = "<tr>";
-								html += "<td>"+item.customerId+"</td>";
-								html += "<td>"+item.firstName+"</td>";
-								html += "<td>"+item.lastName+"</td>";
-								html += "<td>"+item.storeId+"</td>";
-								html += "<td>"+item.active+"</td>";
-								html += "<td>"+item.email+"</td>";
-								html += "<td>"+item.createDate+"</td>";
-								html += "<td>"+item.lastUpdate+"</td>";
-								html += "<td>"+item.addressId+"</td>";
-								html += "</tr>";
-								$("#list").append(html);
-							})					
-						}
-					});	//ajax end	
+					getList();
 				},//success end
 			});	// ajax end		
 		}//else end

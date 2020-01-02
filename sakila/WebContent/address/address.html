@@ -27,7 +27,7 @@
 			 </nav>
 			 
 			 <section class="is-content">
-			  <h1 class="title is-4 is-spaced">🏠 주소 관리</h1>
+		   	  <h1 class="title is-4 is-spaced">🏠 주소 관리</h1>
 			  <h1 class="subtitle is-6">국가/도시 선택 검색</h1>
 				<!-- 국가 선택 -->
 				<div class="select">
@@ -118,27 +118,10 @@
 	
 
 	// 처음 페이지 열었을 때 address 목록 출력
-	$.ajax({
-		url: "/sakila/address/SelectAddressList",
-		method: "POST",
-		data : { currentPage : currentPage},
-		success : function(json){
-			console.log(json);
-			$(json).each(function(index, item){
-				let html = "<tr>";
-				html += "<td>"+item.addressId+"</td>";
-				html += "<td>"+item.address+"</td>";
-				html += "<td>"+item.address2+"</td>";
-				html += "<td>"+item.city.cityId+"</td>";
-				html += "<td>"+item.district+"</td>";
-				html += "<td>"+item.postalCode+"</td>";
-				html += "<td>"+item.phone+"</td>";
-				html += "<td>"+item.lastUpdate+"</td>";
-				html += "</tr>";
-				$("#list").append(html);
-			})				
-		}									
-	});				
+	getList();
+	
+	
+	
 	//이전 버튼
 	$("#preBtn").click(function(){
 		if(currentPage === 1){
@@ -150,27 +133,7 @@
 		
 		$("#list").empty();
 		// 목록 출력
-		$.ajax({
-			url: "/sakila/address/SelectAddressList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				$(json).each(function(index, item){
-					let html = "<tr>";
-					html += "<td>"+item.addressId+"</td>";
-					html += "<td>"+item.address+"</td>";
-					html += "<td>"+item.address2+"</td>";
-					html += "<td>"+item.city.cityId+"</td>";
-					html += "<td>"+item.district+"</td>";
-					html += "<td>"+item.postalCode+"</td>";
-					html += "<td>"+item.phone+"</td>";
-					html += "<td>"+item.lastUpdate+"</td>";
-					html += "</tr>";
-					$("#list").append(html);
-				})				
-			}
-		});		
+		getList();	
 	});
 	
 	// 다음 버튼
@@ -197,27 +160,8 @@
 		
 		$("#list").empty();
 		// 목록 출력
-		$.ajax({
-			url: "/sakila/address/SelectAddressList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				$(json).each(function(index, item){
-					let html = "<tr>";
-					html += "<td>"+item.addressId+"</td>";
-					html += "<td>"+item.address+"</td>";
-					html += "<td>"+item.address2+"</td>";
-					html += "<td>"+item.city.cityId+"</td>";
-					html += "<td>"+item.district+"</td>";
-					html += "<td>"+item.postalCode+"</td>";
-					html += "<td>"+item.phone+"</td>";
-					html += "<td>"+item.lastUpdate+"</td>";
-					html += "</tr>";
-					$("#list").append(html);
-				})				
-			}
-		});		
+		getList();
+		
 	});
 	
 	$("#selectAddress").click(function(){
@@ -253,5 +197,30 @@
 		}//else end
 	});//click end
 	 
+	
+	function getList(){
+		$.ajax({
+			url: "/sakila/address/SelectAddressList",
+			method: "POST",
+			data : { currentPage : currentPage},
+			success : function(json){
+				console.log(json);
+				$(json).each(function(index, item){
+					let html = "<tr>";
+					html += "<td>"+item.addressId+"</td>";
+					html += "<td>"+item.address+"</td>";
+					html += "<td>"+item.address2+"</td>";
+					html += "<td>"+item.city.cityId+"</td>";
+					html += "<td>"+item.district+"</td>";
+					html += "<td>"+item.postalCode+"</td>";
+					html += "<td>"+item.phone+"</td>";
+					html += "<td>"+item.lastUpdate+"</td>";
+					html += "</tr>";
+					$("#list").append(html);
+				})				
+			}									
+		});		
+	}
+	
 </script>
 </html>

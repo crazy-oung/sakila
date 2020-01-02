@@ -2,49 +2,65 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>sakila country Insert</title>
+<title>Sakila : 국가 관리</title>
 <!-- 스타일시트 css 파일 import -->
-<link rel="stylesheet" href="../style/style.css">
+<link rel="stylesheet" href="../style/hi.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
-	<!-- 메뉴  -->
-	<div id="menu"></div>
-	<!-- 내용 -->
-	<div id="section">
-		<h1>국가</h1>
-		<hr>
-		<h2>국가 추가</h2>
-		<div>
-			<div>
-				country : <input type="text" id="country">
-			</div>
-			<div>
-				<button type="button" id="addCountry">추가</button>
-			</div>
+	<div class="columns" style="margin:0; height: 100%">
+		<!-- 메뉴 -->
+		<div class="column is-2 notification card is-peachy" style="margin:0;">
+			<section class="section">
+			    <div id="menu"></div>
+			</section>
 		</div>
-		<hr>
-		<h2>국가 목록 조회</h2>
-		<table>
-			<thead>
-				<tr>
-					<th>country_id</th>
-					<th>country</th>
-					<th>last_update</th>
-				</tr>
-			</thead>
-			<tbody id="list">
-			</tbody>
-		</table>
-		<button type="button" id="preBtn">이전</button>
-		<button type="button" id="nextBtn">다음</button>
+		<!-- 내용 -->
+		<div class="column">
+			 <nav class="breadcrumb notification is-lighter-peachy" aria-label="breadcrumbs">
+			  <ul>
+			    <li><a href="#">ADDRESS</a></li>
+			    <li class="is-active"><a href="#" aria-current="page">국가관리</a></li>
+			  </ul>
+			 </nav>
+			 
+			<section class="is-content">
+		   	 	<h1 class="title is-4 is-spaced">🌍 국가 관리</h1>
+				<h1 class="subtitle is-6">국가 선택지 추가</h1>
+				<hr>
+				<div class="columns">
+					<div class="column">
+						국가명 <input class="input" type="text" id="country">
+					</div>
+					<div class="column">
+						<br><button class="button is-light is-danger is-rounded " type="button" id="addCountry">국가추가</button>
+					</div>
+				</div>
+				<hr>
+				<h2 class="title is-5 has-text-centered">국가 목록 조회</h2>
+				<table class="table is-hoverable is-fullwidth is-bordered">
+					<thead>
+						<tr>
+							<th>등록번호</th>
+							<th>국가명</th>
+							<th>마지막 수정</th>
+						</tr>
+					</thead>
+					<tbody id="list">
+					</tbody>
+				</table>
+				<button type="button" class="button" id="preBtn">이전</button>
+				<button type="button" class="button" id="nextBtn">다음</button>
+			</section>
+			<div id="foot"></div>
+		</div>
 	</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="../js/sakilaCRM.js"></script>
 <script>
-	//menu 출력
-	$("#menu").load("../menu.html");	
-
-	
 	let currentPage = 1;
 	$("#list").empty();
 	// 처음 페이지 열었을 때 목록 출력

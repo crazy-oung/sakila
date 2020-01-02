@@ -34,10 +34,9 @@ $('#menu').append(
 $("#foot").append(
 		'<footer class="footer">'+
 		'<div class="content has-text-centered">'+
-		'<p>'+
 		'<strong><span class="tag is-warning"><b>Sakila</b></span> CRM 👾</strong> by <a href="https://github.com/crazy-oung">Dayoung Han</a>.<br>'+
-		' Made with <a href="https://bulma.io/">BULMA</a>. DataBase from <a href="https://dev.mysql.com/doc/sakila/en/">here</a>.'+
-		'</p>'+
+		'Made with <a href="https://bulma.io/">BULMA</a>. DataBase from <a href="https://dev.mysql.com/doc/sakila/en/">here</a>.<br>'+
+		'ⓒ 2019 - 2020 <strong>Dayoung Han</strong>. All Rights Reserved.'+
 		'</div>'+
 		'</footer>');
 

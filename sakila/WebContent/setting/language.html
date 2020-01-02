@@ -1,79 +1,127 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>sakila city Insert</title>
-<!-- 스타일시트 css 파일 import -->
-<link rel="stylesheet" href="../style/style.css">
+	<meta charset="UTF-8">
+	<title>Sakila : 언어 관리</title>
+	<!-- 스타일시트 css 파일 import -->
+	<link rel="stylesheet" href="../style/hi.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
-	<!-- 메뉴  -->
-	<div id="menu"></div>
-	<!-- 내용 -->
-	<div id="section">
-		<h1>도시</h1>
-		<hr>
-		<!-- 도시 추가 -->
-		<h2>도시 추가</h2>
-		<div>
-			<div>
-				<!-- 국가 선택 -->
-				<div>
-					<select size="10" id="countryList">
-					</select>
-				</div>
-				<!-- 정보 입력 -->
-				country id: <input type="text" id="countryId" readonly>
-				city : <input type="text" id="city">
-				<button type="button" id="addCity"> insert > </button>
-			</div>
+	<div class="columns" style="margin:0; height: 100%">
+		<!-- 메뉴 -->
+		<div class="column is-2 notification card is-peachy" style="margin:0;">
+			<section class="section">
+			    <div id="menu"></div>
+			</section>
 		</div>
-		<hr>
-		<h2>도시 목록 조회</h2>
-		<table>
-			<thead>
-			<tr>
-				<th>city_id</th>
-				<th>city</th>
-				<th>last_update</th>
-				<th>country_id</th>
-				<th>country</th>
-				<th>last_update</th>
-				</tr>
-			</thead>
-			<tbody id="list">
-			</tbody>
-		</table>
-		<button type="button" id="preBtn">이전</button>
-		<button type="button" id="nextBtn">다음</button>
-	</div>
+		<!-- 내용 -->
+		<div class="column">
+			 <nav class="breadcrumb notification is-lighter-peachy" aria-label="breadcrumbs">
+			  <ul>
+			    <li><a href="#">SETTING</a></li>
+			    <li class="is-active"><a href="#" aria-current="page">언어관리</a></li>
+			  </ul>
+			 </nav>
+			 
+			 <section class="is-content">
+			  <h1 class="title is-4 is-spaced">🌐 언어 관리</h1>
+			  <h1 class="subtitle is-6">국가/도시 선택 검색</h1>
+				<!-- 국가 선택 -->
+				<div class="select">
+					<select id="countryList"></select>
+				</div>
+				<!-- selecting city -->
+				<div class="select" id="citys">
+					<select id="cityList"></select>
+				</div>	
+				<button type="button" class="button" id="selectAddress"> 검색 </button>
+			  <hr>
+			  <!-- 테이블 정보 -->
+			  <h1 class="title is-5 has-text-centered is-danger">검색 결과</h1>
+			  <table class="table is-hoverable is-bordered is-fullwidth">
+					<thead>
+					<tr>
+						<th class="has-text-centered" width="5%">번호</th>
+						<th class="has-text-centered">주소</th>
+						<th class="has-text-centered">상세주소</th>
+						<th class="has-text-centered" width="5%">district</th>
+						<th class="has-text-centered" width="10%">지역</th>
+						<th class="has-text-centered" width="8%">우편번호</th>
+						<th class="has-text-centered" width="8%">전화 번호</th>
+						<th class="has-text-centered" width="13%">마지막 수정</th>
+					</tr>
+					</thead>
+					<tbody id="list">
+					</tbody>
+				</table>
+				
+				<button type="button" class="button" id="preBtn">이전</button>
+				<button type="button" class="button" id="nextBtn">다음</button>
+			<hr>
+		  </section>
+		  <div id="foot"></div>
+		</div><!-- 내용 끝 -->
+	</div><!-- columns 끝 -->
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="../js/sakilaCRM.js"></script>
 <script>
-	//menu 출력
-	$("#menu").load("../menu.html");	
+
+	$("#citys").hide();
+	
 	let currentPage = 1;	
-	$("#list").empty();
-	// 처음 페이지 열었을 때 목록 출력
+	
+	// country 목록 출력
 	$.ajax({
-		url: "/sakila/address/SelectCityList",
+		url:"/sakila/address/SelectCountryListAll", 
 		method: "POST",
-		data : { currentPage : currentPage},
 		success : function(json){
-			console.log(json);
-			for(let i =0; i < json.length; i++){
-			let html = "<tr>";
-			html += "<td>"+json[i].cityId+"</td>";
-			html += "<td>"+json[i].city+"</td>";
-			html += "<td>"+json[i].lastUpdate+"</td>";
-			html += "<td>"+json[i].country.countryId+"</td>";
-			html += "<td>"+json[i].country.country+"</td>";
-			html += "<td>"+json[i].country.lastUpdate+"</td>";
-			html += "</tr>";
-			$("#list").append(html);
-			}									
+				$(json).each(function(index, item){
+				temp="<option value='";
+				temp+=item.countryId;
+				temp+="'>";
+				temp+=item.country;
+				temp+="</option>";
+				$("#countryList").append(temp);
+			});
 		}
-	});				
+	});	
+	
+	// 나라 선택시 나라 번호 출력 & city list select
+	$("#countryList").change(function(){
+		console.log($("#countryList").val())
+		// when country selected -> 도시 목록 출력
+		$.ajax({
+			url:"/sakila/address/SelectCityListByCountry", 
+			method: "POST",
+			data : {"countryId" : $("#countryList").val()},
+			success : function(json){
+				$(json).each(function(index, item){
+					temp="<option value='";
+					temp+=item.cityId;
+					temp+="'>";
+					temp+=item.city;
+					temp+="</option>";
+					$("#cityList").append(temp);
+				});
+				$("#citys").fadeIn();
+			},
+			error:function(){
+				alert("불러오기 실패");
+				console.log(json)
+			}
+		});
+	});
+	
+
+	// 처음 페이지 열었을 때 address 목록 출력
+	getList();
+	
+	
+	
 	//이전 버튼
 	$("#preBtn").click(function(){
 		if(currentPage === 1){
@@ -85,32 +133,14 @@
 		
 		$("#list").empty();
 		// 목록 출력
-		$.ajax({
-			url: "/sakila/address/SelectCityList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				for(let i =0; i < json.length; i++){
-				let html = "<tr>";
-				html += "<td>"+json[i].cityId+"</td>";
-				html += "<td>"+json[i].city+"</td>";
-				html += "<td>"+json[i].lastUpdate+"</td>";
-				html += "<td>"+json[i].country.countryId+"</td>";
-				html += "<td>"+json[i].country.country+"</td>";
-				html += "<td>"+json[i].country.lastUpdate+"</td>";
-				html += "</tr>";
-				$("#list").append(html);
-				}										
-			}
-		});		
+		getList();	
 	});
 	
 	// 다음 버튼
 	$("#nextBtn").click(function(){
 		let count = 0;
 		$.ajax({
-			url : "/sakila/address/SelectCityCount",
+			url : "/sakila/address/SelectAddressCount",
 			method : "POST",
 			async : false,
 			success : function(json){
@@ -130,83 +160,67 @@
 		
 		$("#list").empty();
 		// 목록 출력
-		$.ajax({
-			url: "/sakila/address/SelectCityList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				for(let i =0; i < json.length; i++){
-				let html = "<tr>";
-				html += "<td>"+json[i].cityId+"</td>";
-				html += "<td>"+json[i].city+"</td>";
-				html += "<td>"+json[i].lastUpdate+"</td>";
-				html += "<td>"+json[i].country.countryId+"</td>";
-				html += "<td>"+json[i].country.country+"</td>";
-				html += "<td>"+json[i].country.lastUpdate+"</td>";
-				html += "</tr>";
-				$("#list").append(html);
-				}					
-			}
-		});		
+		getList();
+		
 	});
 	
-	$.ajax({
-		url:"/sakila/address/SelectCountryListAll",
-		method: "POST",
-		success: function(json){
-			console.log(json);
-			$("#countryList").empty();
-			for(let c of json){
-				$("#countryList").append("<option value = '"+c.countryId+"'>"+c.country+"</option>");
-			}
-		}
-	});
-	
-	// 나라 선택시 나라 번호 출력 countryList에 변화가 생기면
-	$("#countryList").change(function(){
-		$("#countryId").val($("#countryList").val());	// countryId값이 있을 장소에 countryList의 값을 넣는다.
-	});
-	
-	$("#addCity").click(function(){
-		console.log("addCity 버튼 clicked"); 
+	$("#selectAddress").click(function(){
+		console.log("selectAddress 버튼 clicked"); 
 		currentPage = 1;
-		if($("#countryId").val() === "" || $("#city").val() === ""){
-			alert("공백을 채워주세요 !");
+		if($("#cityList").val() === ""){
+			alert("도시를 지정해주세요 !");
 		}else{					
 			$.ajax({
-				url: "/sakila/address/InsertCity",
+				url: "/sakila/address/SelectAddressListByCity",
 				method: "POST", 
-				data: {countryId:$("#countryId").val(), city: $("#city").val()},
+				data: {currentPage : currentPage, cityId: $("#cityList").val()},
 				success: function(json){
-					console.log("레고레고~");
-					console.log("countryId: "+$("#countryId").val()+"city: "+$("#city").val());
+					console.log(json);
+					console.log("cityList: "+$("#cityList").val());
 					//비우고
-					$("#list").empty();
-					// 목록 출력
-					$.ajax({
-						url: "/sakila/address/SelectCityList",
-						method: "POST",
-						data : { currentPage : currentPage},
-						success : function(json){
-							console.log(json);
-							for(let i =0; i < json.length; i++){
-								let html = "<tr>";
-								html += "<td>"+json[i].cityId+"</td>";
-								html += "<td>"+json[i].city+"</td>";
-								html += "<td>"+json[i].lastUpdate+"</td>";
-								html += "<td>"+json[i].country.countryId+"</td>";
-								html += "<td>"+json[i].country.country+"</td>";
-								html += "<td>"+json[i].country.lastUpdate+"</td>";
-								html += "</tr>";
-								$("#list").append(html);
-							}//for end					
-						} //success end
-					});	//ajax end	
-				},//success end
+					$("#list").empty();				
+					$(json).each(function(index, item){
+						let html = "<tr>";
+						html += "<td>"+item.addressId+"</td>";
+						html += "<td>"+item.address+"</td>";
+						html += "<td>"+item.address2+"</td>";
+						html += "<td>"+item.city.cityId+"</td>";
+						html += "<td>"+item.district+"</td>";
+						html += "<td>"+item.postalCode+"</td>";
+						html += "<td>"+item.phone+"</td>";
+						html += "<td>"+item.lastUpdate+"</td>";
+						html += "</tr>";
+						$("#list").append(html);
+					})					
+				}
 			});	// ajax end		
 		}//else end
 	});//click end
 	 
+	
+	function getList(){
+		$.ajax({
+			url: "/sakila/address/SelectAddressList",
+			method: "POST",
+			data : { currentPage : currentPage},
+			success : function(json){
+				console.log(json);
+				$(json).each(function(index, item){
+					let html = "<tr>";
+					html += "<td>"+item.addressId+"</td>";
+					html += "<td>"+item.address+"</td>";
+					html += "<td>"+item.address2+"</td>";
+					html += "<td>"+item.city.cityId+"</td>";
+					html += "<td>"+item.district+"</td>";
+					html += "<td>"+item.postalCode+"</td>";
+					html += "<td>"+item.phone+"</td>";
+					html += "<td>"+item.lastUpdate+"</td>";
+					html += "</tr>";
+					$("#list").append(html);
+				})				
+			}									
+		});		
+	}
+	
 </script>
 </html>

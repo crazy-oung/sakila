@@ -5,23 +5,20 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
 import sakila.customer.model.Customer;
-import sakila.customer.model.CustomerDao; 
+import sakila.customer.model.CustomerDao;
 
-@WebServlet("/customer/SelectCustomerList")
-public class SelectCustomerList extends HttpServlet {
-	
+@WebServlet("/customer/selectPaymentList")
+public class SelectPaymentList {
 	private static final long serialVersionUID = 1L;
 	private CustomerDao customerDao;
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("::: SelectCustomerList SERVLET 실행 :::");
+		System.out.println("::: selectPaymentList SERVLET 실행 :::");
 		response.setContentType("application/json;charset=utf-8");
 		customerDao = new CustomerDao();
 		
@@ -34,5 +31,4 @@ public class SelectCustomerList extends HttpServlet {
 		response.getWriter().write(jsonStr);
 		
 	}
-
 }
