@@ -14,7 +14,7 @@ $('#menu').append(
 		"<li><a href='/sakila/customer/customer.html'>👥 고객 관리</a></li>"+
 		"<li><a href='/sakila/customer/payment.html'>💳 지불 내역</a></li>"+
 		"</ul>"+
-		"<p class='menu-label'Business</p>"+
+		"<p class='menu-label'>Business</p>"+
 		"<ul class='menu-list'>"+
 		"<li><a href='/sakila/business/rental.html'>📇 대여 내역</a></li>"+
 		"<li><a href='/sakila/business/staff.html'>👩‍💼 직원 관리</a></li>"+

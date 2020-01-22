@@ -10,7 +10,7 @@
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 <body>
-	<div class="columns" style="margin:0; height: 100%">
+	<div class="columns" id="test"  style="margin:0; height: 100%">
 		<!-- 메뉴 -->
 		<div class="column is-2 notification card is-peachy" style="margin:0;">
 			<section class="section">
@@ -33,25 +33,25 @@
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="sub-title is-6">고객수</p>
-				    <p class="title is-1" id="customer"></p>
+				    <p class="title is-1" id="customer">{{ countUp("customer", json.customerRow) }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="sub-title is-6">보유 영화</p>
-				    <p class="title is-1" id="film"></p>
+				    <p class="title is-1" id="film">{{ countUp("film", json.actorRow) }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="sub-title is-6">총 대여횟수</p>
-				    <p class="title is-1" id="rental"></p>
+				    <p class="title is-1" id="rental">{{ countUp("rental", json.rentalRow) }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="sub-title is-6">결제 완료</p>
-				    <p class="title is-1" id="payment"></p>
+				    <p class="title is-1" id="payment">{{ countUp("payment", json.paymentRow) }}</p>
 				  </div>
 				</div>
 			  </nav>
@@ -62,103 +62,103 @@
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">actor</p>
-				    <p class="title" id="actorRow"></p>
+				    <p class="title" id="actorRow">{{ json.actorRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">address</p>
-				    <p class="title" id="addressRow"></p>
+				    <p class="title" id="addressRow">{{ json.addressRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">category</p>
-				    <p class="title" id="categoryRow"></p>
+				    <p class="title" id="categoryRow">{{ json.categoryRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">city</p>
-				    <p class="title" id="cityRow"></p>
+				    <p class="title" id="cityRow">{{ json.cityRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">country</p>
-				    <p class="title" id="countryRow"></p>
+				    <p class="title" id="countryRow">{{ json.countryRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">customer</p>
-				    <p class="title" id="customerRow"></p>
+				    <p class="title" id="customerRow">{{ json.customerRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">film</p>
-				    <p class="title" id="filmRow"></p>
+				    <p class="title" id="filmRow">{{ json.filmRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">film_actor</p>
-				    <p class="title" id="filmActorRow"></p>
+				    <p class="title" id="filmActorRow">{{ json.filmActorRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">film_category</p>
-				    <p class="title" id="filmCategoryRow"></p>
+				    <p class="title" id="filmCategoryRow">{{ json.filmCategoryRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">film_text</p>
-				    <p class="title" id="filmTextRow"></p>
+				    <p class="title" id="filmTextRow">{{ json.filmTextRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">inventory</p>
-				    <p class="title" id="inventoryRow"></p>
+				    <p class="title" id="inventoryRow">{{ json.inventoryRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">language</p>
-				    <p class="title" id="languageRow"></p>
+				    <p class="title" id="languageRow">{{ json.languageRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">payment</p>
-				    <p class="title" id="paymentRow"></p>
+				    <p class="title" id="paymentRow">{{ json.paymentRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">rental</p>
-				    <p class="title" id="rentalRow"></p>
+				    <p class="title" id="rentalRow">{{ json.rentalRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">staff</p>
-				    <p class="title" id="staffRow"></p>
+				    <p class="title" id="staffRow">{{ json.staffRow }}</p>
 				  </div>
 				</div>
 				<div class="level-item has-text-centered">
 				  <div>
 				    <p class="heading">store</p>
-				    <p class="title" id="storeRow"></p>
+				    <p class="title" id="storeRow">{{ json.storeRow }}</p>
 				  </div>
 				</div>
 			</nav>
 			<hr>
+			<p class="title is-5 has-text-centered">아래는 디자인 미리보기용 구성 입니다. </p>
 			<div class="columns">
-				
 				<!-- 뷰 목록 -->
 				<div class="column">
 					<div class="box">
@@ -330,57 +330,51 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="js/sakilaCRM.js"></script>
 <script src="js/countUp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 
-	$.ajax({
-	url : "/sakila/IndexController",
-	method: "post",
-	success: function(json){
-		console.log(json);
-		countUp("film", json.filmRow);
-		countUp("customer", json.customerRow);
-		countUp("rental", json.rentalRow);
-		countUp("payment", json.paymentRow);
-		
-		$("#actorRow").text(json.actorRow);
-		$("#addressRow").text(json.addressRow);
-		$("#categoryRow").text(json.categoryRow);
-		$("#cityRow").text(json.cityRow);
-		$("#countryRow").text(json.countryRow);
-		$("#customerRow").text(json.customerRow);
-		$("#filmRow").text(json.filmRow);		
-		$("#filmActorRow").text(json.filmActorRow);
-		$("#filmCategoryRow").text(json.filmCategoryRow);
-		$("#filmTextRow").text(json.filmTextRow);
-		$("#inventoryRow").text(json.inventoryRow);
-		$("#languageRow").text(json.languageRow);
-		$("#paymentRow").text(json.paymentRow);
-		$("#rentalRow").text(json.rentalRow);
-		$("#staffRow").text(json.staffRow);
-		$("#storeRow").text(json.storeRow); 
-	}
-	});
+var vm =new Vue({
+	el: "#test",
+   data: {
+		json:{actorRow:"test"}
+   },
+   mounted() {
+	   
+	   console.log("getting Info! ")
+	   
+	   $.ajax({
+			url : "/sakila/IndexController",
+			method: "post",
+			success: function(json){
+				console.log("json", json);
+				
+				vm.json = json;
+				console.log("this.json: ", vm.json)
+			}
+		});
+	   
+   },
+   methods: {
+	   countUp : function(id, value){
+			if(value-200 < 0){
+				first=0
+			}else{
+				first= value-200;
+			}
+			options = {
+					  startVal: first,
+					  duration: 3,
+			};
+			console.log(options)
+			let countUp = new CountUp(id, value, options);
+			if (!countUp.error) {
+			  countUp.start();
+			} else {
+			  console.error(countUp.error);
+			} 
+		},
+   },
+});
 
-
-	function countUp(id, value){
-		if(value-200 < 0){
-			first=0
-		}else{
-			first= value-200;
-		}
-		options = {
-				  startVal: first,
-				  duration: 3,
-		};
-		console.log(options)
-		let countUp = new CountUp(id, value, options);
-		if (!countUp.error) {
-		  countUp.start();
-		} else {
-		  console.error(countUp.error);
-		} 
-	}	
-
-		
 </script>
 </html>

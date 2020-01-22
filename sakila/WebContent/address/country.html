@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="columns" style="margin:0; height: 100%">
+	<!-- {{x}} -->
 		<!-- 메뉴 -->
 		<div class="column is-2 notification card is-peachy" style="margin:0;">
 			<section class="section">
@@ -32,14 +33,15 @@
 				<hr>
 				<div class="columns">
 					<div class="column">
-						국가명 <input class="input" type="text" id="country">
+						국가명 <input class="input" v-model="countryName" type="text">
 					</div>
 					<div class="column">
-						<br><button class="button is-light is-danger is-rounded " type="button" id="addCountry">국가추가</button>
+						<br><button class="button is-light is-danger is-rounded" type="button" @click="addCountry">국가추가</button>
 					</div>
 				</div>
 				<hr>
 				<h2 class="title is-5 has-text-centered">국가 목록 조회</h2>
+				<!-- {{json}} -->
 				<table class="table is-hoverable is-fullwidth is-bordered">
 					<thead>
 						<tr>
@@ -49,10 +51,15 @@
 						</tr>
 					</thead>
 					<tbody id="list">
+						<tr v-for="jsons in json">
+							<td>{{ jsons.countryId }}</td>
+							<td>{{ jsons.country }}</td>
+							<td>{{ jsons.lastUpdate }}</td>
+						</tr>
 					</tbody>
 				</table>
-				<button type="button" class="button" id="preBtn">이전</button>
-				<button type="button" class="button" id="nextBtn">다음</button>
+				<button type="button" class="button" @click="prevBtn">이전</button>
+				<button type="button" class="button" @click="nextBtn">다음</button>
 			</section>
 			<div id="foot"></div>
 		</div>
@@ -60,27 +67,98 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="../js/sakilaCRM.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-	let currentPage = 1;
-	$("#list").empty();
-	// 처음 페이지 열었을 때 목록 출력
+var currentPage = 1;
+var lastPage;
+
+var vm = new Vue({
+	el: ".columns",
+	data: {
+		x:1,
+		json:[{}],
+		countryName : "",
+	},
+	mounted() {
+		console.log("getting Info! ");
+		getCountryList();
+	},
+	methods: {
+		addCountry : function(){
+			//insert 버튼 클릭시 실행
+			// 버튼 클릭시 클릭 함수가 실행된다.
+			console.log("country Value: ", this.countryName);
+			if(this.countryName === ""){
+				alert("국가 이름을 입력해주세요");
+				return;
+			}
+			
+			$.ajax({	
+				url : "/sakila/address/InsertCountry",
+				method: "POST",
+				data: {country: this.countryName },
+				async : false,
+				success : function(){
+					console.log("succeed!");
+				},
+			});
+			
+			// 추가 후 페이지 수 갱신
+			$.ajax({
+				url : "/sakila/addrerss/selectCountryCount",
+				method : "POST",
+				success : function(json){
+					console.log(json);
+					let count = Number(json);
+					lastPage = Math.ceil(count / 10);
+					console.log(lastPage);
+					
+					// 갱신 후 출력
+					getCountryList();
+				}
+			});
+		},
+		
+		nextBtn : function(){
+			this.x = 10;
+			if(currentPage >= lastPage){
+				alert("마지막 페이지입니다.")
+				return;
+			}
+			
+			currentPage ++;
+			getCountryList();
+		},
+		prevBtn : function(){
+			if(currentPage <= 1){
+				alert("이전 페이지가 없습니다.")
+				return;
+			}
+			
+			currentPage --;
+			getCountryList();
+		},
+	},
+});
+
+function getCountryList(){
+	console.log("get CountryList")
 	$.ajax({
 		url: "/sakila/address/SelectCountryList",
 		method: "POST",
 		data : { currentPage : currentPage},
 		success : function(json){
 			console.log(json);
-			for(let i =0; i < json.length; i++){
-			let html = "<tr>";
-			html += "<td>"+json[i].countryId+"</td>";
-			html += "<td>"+json[i].country+"</td>";
-			html += "<td>"+json[i].lastUpdate+"</td>";
-			html += "</tr>";
-			$("#list").append(html);
-			}
-									
+			vm.json = json;	
+			console.log("vm.json",vm.json);
 		}
-	});				
+	});		
+}
+
+	/* $("#list").empty();
+	// 처음 페이지 열었을 때 목록 출력
+			
+	
 	//이전 버튼
 	$("#preBtn").click(function(){
 		if(currentPage === 1){
@@ -104,7 +182,7 @@
 				html += "<td>"+json[i].country+"</td>";
 				html += "<td>"+json[i].lastUpdate+"</td>";
 				html += "</tr>";
-				$("#list").append(html);
+				$("#list").append(html);     
 				}
 										
 			}
@@ -114,17 +192,9 @@
 	// 다음 버튼
 	$("#nextBtn").click(function(){
 		let count = 0;
-		$.ajax({
-			url : "/sakila/addrerss/selectCountryCount",
-			method : "POST",
-			async : false,
-			success : function(json){
-				console.log(json);
-				count = Number(json);
-			}
-		});
 		
-		let lastPage = Math.ceil(count / 10);
+		
+		let 
 		if(currentPage == lastPage){
 			alert(" 현재 마지막페이지 입니다. 더 이상 다음으로 갈 수 없습니다.");
 			return;
@@ -153,43 +223,8 @@
 			}
 		});		
 	});
-	//insert 버튼 클릭시 실행
-	$("#addCountry").click(function(){ // 버튼 클릭시 클릭 함수가 실행된다.
-		console.log("#addCountry click!");
-		currentPage = 1;
-		console.log("country Value: ",$('#country').val()); // returns vaule data from where id is country
-		if($("#country").val() === ""){
-			alert("국가 이름을 입력해주세요");
-		}
-		
-		//html 요청 ->? ajax 요청 
-				
-		$.ajax({	
-			url : "/sakila/address/InsertCountry",
-			method: "POST",
-			data: {country: $("#country").val()},
-			success : function(){
-				console.log("succeed!");
-				$("#list").empty();
-				// 목록 출력
-				$.ajax({
-					url: "/sakila/address/SelectCountryList", 
-					method: "POST",
-					data : { currentPage : currentPage},
-					success : function(json){
-						console.log(json);
-						for(let i =0; i < json.length; i++){
-						let html = "<tr>";
-						html += "<td>"+json[i].countryId+"</td>";
-						html += "<td>"+json[i].country+"</td>";
-						html += "<td>"+json[i].lastUpdate+"</td>";
-						html += "</tr>";
-						$("#list").append(html);
-						}												
-					}, 
-				});				
-			},
-		});
-	});
+	 */
+	
+	
 </script>
 </html>
