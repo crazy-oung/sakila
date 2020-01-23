@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="columns" style="margin:0; height: 100%">
+		{{x}}
 		<!-- 메뉴 -->
 		<div class="column is-2 notification card is-peachy" style="margin:0;">
 			<section class="section">
@@ -31,35 +32,51 @@
 			  <h1 class="subtitle is-6">국가/도시 선택 검색</h1>
 				<!-- 국가 선택 -->
 				<div class="select">
-					<select id="countryList"></select>
+					<select id="countryList">
+						<option v-for="item in country">{{ item.countryName }}</option>
+					</select>
 				</div>
 				<!-- selecting city -->
-				<div class="select" id="citys">
-					<select id="cityList"></select>
+				<div class="select" id="citys" style="display:none;">
+					<select id="cityList" v-model="cityName">
+						<option v-for="item in city">{{ item }}</option>
+					</select>
 				</div>	
-				<button type="button" class="button" id="selectAddress"> 검색 </button>
+				<button type="button" class="button" @click="selectAddress"> 검색 </button>
 			  <hr>
 			  <!-- 테이블 정보 -->
 			  <h1 class="title is-5 has-text-centered is-danger">검색 결과</h1>
 			  <table class="table is-hoverable is-bordered is-fullwidth">
 					<thead>
-					<tr>
-						<th class="has-text-centered" width="5%">번호</th>
-						<th class="has-text-centered">주소</th>
-						<th class="has-text-centered">상세주소</th>
-						<th class="has-text-centered" width="5%">district</th>
-						<th class="has-text-centered" width="10%">지역</th>
-						<th class="has-text-centered" width="8%">우편번호</th>
-						<th class="has-text-centered" width="8%">전화 번호</th>
-						<th class="has-text-centered" width="13%">마지막 수정</th>
-					</tr>
+
+						<tr>
+							<th class="has-text-centered" width="5%">번호</th>
+							<th class="has-text-centered">주소</th>
+							<th class="has-text-centered">상세주소</th>
+							<th class="has-text-centered" width="5%">지</th>
+							<th class="has-text-centered" width="10%">지역</th>
+							<th class="has-text-centered" width="8%">우편번호</th>
+							<th class="has-text-centered" width="8%">전화 번호</th>
+							<th class="has-text-centered" width="13%">마지막 수정</th>
+						</tr>
 					</thead>
-					<tbody id="list">
+					<tbody>
+						<tr v-for="json in item"></tr>
+							<td>{{item.addressId}}</td>
+							<td>{{item.address}}</td>
+							<td>{{item.address2}}</td>
+							<td>{{item.city.cityId}}</td>
+							<td>{{item.district}}</td>
+							<td>{{item.postalCode}}</td>
+							<td>{{item.phone}}</td>
+							<td>{{item.lastUpdate}}</td>
+						</tr>
 					</tbody>
+
 				</table>
 				
-				<button type="button" class="button" id="preBtn">이전</button>
-				<button type="button" class="button" id="nextBtn">다음</button>
+				<button type="button" class="button" @click="preBtn">이전</button>
+				<button type="button" class="button" @click="nextBtn">다음</button>
 			<hr>
 		  </section>
 		  <div id="foot"></div>
@@ -68,11 +85,76 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="../js/sakilaCRM.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
+var currentPage = 1;
+var lastPage;
 
-	$("#citys").hide();
+var vm = new Vue({
+	el: ".columns",
+	data: {
+		x:1,
+		json:[{}],
+		cityName : "",
+		country : [{}],
+		city : [{}],
+	},
+	mounted() {
+		console.log("getting Info! ");
+		$.ajax({
+			url:"/sakila/address/SelectCountryListAll", 
+			method: "POST",
+			success : function(json){
+				console.log("아휴 힘들")
+			}
+		});
+	},
+	methods: {
+		selectAddress : function(){
+			
+			console.log("cityName: ", this.cityName);
+			if(this.cityName === ""){
+				alert("도시를 선택해주세요");
+				return;
+			}
+			
+			
+		},
+		
+		nextBtn : function(){
+			this.x = 10;
+			if(currentPage >= lastPage){
+				alert("마지막 페이지입니다.")
+				return;
+			}
+			
+			currentPage ++;
+			getAddressList();
+		},
+		prevBtn : function(){
+			if(currentPage <= 1){
+				alert("이전 페이지가 없습니다.")
+				return;
+			}
+			
+			currentPage --;
+			getAddressList();
+		},
+	},
+});
+
+function getAddressList(){
+	console.log("get getAddressList")
 	
-	let currentPage = 1;	
+		
+}
+
+
+
+
+
+
+/* 
 	
 	// country 목록 출력
 	$.ajax({
@@ -116,9 +198,6 @@
 		});
 	});
 	
-
-	// 처음 페이지 열었을 때 address 목록 출력
-	getList();
 	
 	
 	
@@ -138,16 +217,7 @@
 	
 	// 다음 버튼
 	$("#nextBtn").click(function(){
-		let count = 0;
-		$.ajax({
-			url : "/sakila/address/SelectAddressCount",
-			method : "POST",
-			async : false,
-			success : function(json){
-				console.log(json);
-				count = Number(json);
-			}
-		});
+		
 		
 		let lastPage = Math.ceil(count / 10);
 		if(currentPage == lastPage){
@@ -176,51 +246,20 @@
 				data: {currentPage : currentPage, cityId: $("#cityList").val()},
 				success: function(json){
 					console.log(json);
-					console.log("cityList: "+$("#cityList").val());
+					console.log("cityList: ",$('#cityList').val());
 					//비우고
 					$("#list").empty();				
 					$(json).each(function(index, item){
-						let html = "<tr>";
-						html += "<td>"+item.addressId+"</td>";
-						html += "<td>"+item.address+"</td>";
-						html += "<td>"+item.address2+"</td>";
-						html += "<td>"+item.city.cityId+"</td>";
-						html += "<td>"+item.district+"</td>";
-						html += "<td>"+item.postalCode+"</td>";
-						html += "<td>"+item.phone+"</td>";
-						html += "<td>"+item.lastUpdate+"</td>";
-						html += "</tr>";
+						
 						$("#list").append(html);
 					})					
 				}
 			});	// ajax end		
 		}//else end
 	});//click end
-	 
+	  */
 	
-	function getList(){
-		$.ajax({
-			url: "/sakila/address/SelectAddressList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				$(json).each(function(index, item){
-					let html = "<tr>";
-					html += "<td>"+item.addressId+"</td>";
-					html += "<td>"+item.address+"</td>";
-					html += "<td>"+item.address2+"</td>";
-					html += "<td>"+item.city.cityId+"</td>";
-					html += "<td>"+item.district+"</td>";
-					html += "<td>"+item.postalCode+"</td>";
-					html += "<td>"+item.phone+"</td>";
-					html += "<td>"+item.lastUpdate+"</td>";
-					html += "</tr>";
-					$("#list").append(html);
-				})				
-			}									
-		});		
-	}
+	
 	
 </script>
 </html>
