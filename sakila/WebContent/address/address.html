@@ -11,7 +11,6 @@
 </head>
 <body>
 	<div class="columns" style="margin:0; height: 100%">
-		{{x}}
 		<!-- 메뉴 -->
 		<div class="column is-2 notification card is-peachy" style="margin:0;">
 			<section class="section">
@@ -26,29 +25,32 @@
 			    <li class="is-active"><a href="#" aria-current="page">주소관리</a></li>
 			  </ul>
 			 </nav>
-			 
 			 <section class="is-content">
 		   	  <h1 class="title is-4 is-spaced">🏠 주소 관리</h1>
 			  <h1 class="subtitle is-6">국가/도시 선택 검색</h1>
-				<!-- 국가 선택 -->
+				국가
 				<div class="select">
-					<select id="countryList">
-						<option v-for="item in country">{{ item.countryName }}</option>
+					<select v-model="countryId" @change="getCity">
+						<option selected value="0">국가를 선택해주세요.</option>
+						<option v-for="item in country" :value="item.countryId">{{ item.country }}</option>
 					</select>
 				</div>
-				<!-- selecting city -->
-				<div class="select" id="citys" style="display:none;">
-					<select id="cityList" v-model="cityName">
-						<option v-for="item in city">{{ item }}</option>
+				&nbsp;도시 
+				<div class="select">
+					<select v-model="cityId" @change="putCityId">
+						<option v-if="countryId === 0" selected value="0">국가를 선택해주세요.</option>
+						<span v-else="countryId === 0" >
+							<option value="0">도시를 선택해주세요.</option>
+							<option v-for="item in city" :value="item.cityId">{{ item.city }}</option>
+						</span>
 					</select>
 				</div>	
 				<button type="button" class="button" @click="selectAddress"> 검색 </button>
 			  <hr>
-			  <!-- 테이블 정보 -->
+			  테이블 정보
 			  <h1 class="title is-5 has-text-centered is-danger">검색 결과</h1>
 			  <table class="table is-hoverable is-bordered is-fullwidth">
 					<thead>
-
 						<tr>
 							<th class="has-text-centered" width="5%">번호</th>
 							<th class="has-text-centered">주소</th>
@@ -61,7 +63,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="json in item"></tr>
+						<tr v-for="item in json">
 							<td>{{item.addressId}}</td>
 							<td>{{item.address}}</td>
 							<td>{{item.address2}}</td>
@@ -70,12 +72,11 @@
 							<td>{{item.postalCode}}</td>
 							<td>{{item.phone}}</td>
 							<td>{{item.lastUpdate}}</td>
-						</tr>
+						</tr> 
 					</tbody>
-
 				</table>
 				
-				<button type="button" class="button" @click="preBtn">이전</button>
+				<button type="button" class="button" @click="prevBtn">이전</button>
 				<button type="button" class="button" @click="nextBtn">다음</button>
 			<hr>
 		  </section>
@@ -88,41 +89,72 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 var currentPage = 1;
-var lastPage;
+var lastPage =0;
 
 var vm = new Vue({
 	el: ".columns",
 	data: {
-		x:1,
 		json:[{}],
-		cityName : "",
-		country : [{}],
+		country : [{}], 
+		countryId : 0,
 		city : [{}],
+		cityId : 0,
 	},
 	mounted() {
 		console.log("getting Info! ");
+		console.log("get country list");
+		
+		// country 목록 출력
 		$.ajax({
 			url:"/sakila/address/SelectCountryListAll", 
 			method: "POST",
 			success : function(json){
-				console.log("아휴 힘들")
+				vm.country = json;
+				console.log("json", json);
+				console.log("vm.country", vm.country);
 			}
-		});
+		});	
+		getAddressList();
 	},
 	methods: {
 		selectAddress : function(){
-			
-			console.log("cityName: ", this.cityName);
-			if(this.cityName === ""){
+			console.log("cityId: ", this.cityId);
+			if(this.cityId === 0){
 				alert("도시를 선택해주세요");
 				return;
 			}
+			console.log("getting address list...")
 			
-			
+			$.ajax({
+				url: "/sakila/address/SelectAddressListByCity",
+				method: "POST", 
+				data: {currentPage : currentPage, cityId: vm.cityId},
+				success: function(json){
+					vm.json = json;
+					
+					console.log("vm.json ", vm.json);
+										
+				}
+			});
 		},
-		
+		putCityId : function(){
+			vm.cityId = this.cityId;
+			console.log("this cityId: ", vm.cityId);
+		},
+		getCity : function(){
+			console.log("get city list");
+			$.ajax({
+				url:"/sakila/address/SelectCityListByCountry", 
+				method: "POST",
+				data : {"countryId" : this.countryId},
+				success : function(json){
+					vm.city = json;
+					console.log("vm.city: ", vm.city);
+					
+				}
+			});
+		},
 		nextBtn : function(){
-			this.x = 10;
 			if(currentPage >= lastPage){
 				alert("마지막 페이지입니다.")
 				return;
@@ -133,7 +165,7 @@ var vm = new Vue({
 		},
 		prevBtn : function(){
 			if(currentPage <= 1){
-				alert("이전 페이지가 없습니다.")
+				alert("첫 페이지 입니다.")
 				return;
 			}
 			
@@ -145,120 +177,22 @@ var vm = new Vue({
 
 function getAddressList(){
 	console.log("get getAddressList")
-	
-		
+	// 처음 페이지 열었을 때 address 목록 출력
+	$.ajax({
+		url: "/sakila/address/SelectAddressList",
+		method: "POST",
+		data : { currentPage : currentPage},
+		success : function(json){
+			vm.json = json;
+			console.log("vm.json: ", vm.json , ", json: ",json);		
+		}									
+	});
 }
 
 
 
 
 
-
-/* 
-	
-	// country 목록 출력
-	$.ajax({
-		url:"/sakila/address/SelectCountryListAll", 
-		method: "POST",
-		success : function(json){
-				$(json).each(function(index, item){
-				temp="<option value='";
-				temp+=item.countryId;
-				temp+="'>";
-				temp+=item.country;
-				temp+="</option>";
-				$("#countryList").append(temp);
-			});
-		}
-	});	
-	
-	// 나라 선택시 나라 번호 출력 & city list select
-	$("#countryList").change(function(){
-		console.log($("#countryList").val())
-		// when country selected -> 도시 목록 출력
-		$.ajax({
-			url:"/sakila/address/SelectCityListByCountry", 
-			method: "POST",
-			data : {"countryId" : $("#countryList").val()},
-			success : function(json){
-				$(json).each(function(index, item){
-					temp="<option value='";
-					temp+=item.cityId;
-					temp+="'>";
-					temp+=item.city;
-					temp+="</option>";
-					$("#cityList").append(temp);
-				});
-				$("#citys").fadeIn();
-			},
-			error:function(){
-				alert("불러오기 실패");
-				console.log(json)
-			}
-		});
-	});
-	
-	
-	
-	
-	//이전 버튼
-	$("#preBtn").click(function(){
-		if(currentPage === 1){
-			alert(" 현재 1페이지 입니다. 더 이상 앞으로 갈 수 없습니다.");
-			return;
-		}
-		currentPage -=1;
-		console.log(currentPage);
-		
-		$("#list").empty();
-		// 목록 출력
-		getList();	
-	});
-	
-	// 다음 버튼
-	$("#nextBtn").click(function(){
-		
-		
-		let lastPage = Math.ceil(count / 10);
-		if(currentPage == lastPage){
-			alert(" 현재 마지막페이지 입니다. 더 이상 다음으로 갈 수 없습니다.");
-			return;
-		}
-		
-		currentPage +=1;
-		console.log(currentPage);
-		
-		$("#list").empty();
-		// 목록 출력
-		getList();
-		
-	});
-	
-	$("#selectAddress").click(function(){
-		console.log("selectAddress 버튼 clicked"); 
-		currentPage = 1;
-		if($("#cityList").val() === ""){
-			alert("도시를 지정해주세요 !");
-		}else{					
-			$.ajax({
-				url: "/sakila/address/SelectAddressListByCity",
-				method: "POST", 
-				data: {currentPage : currentPage, cityId: $("#cityList").val()},
-				success: function(json){
-					console.log(json);
-					console.log("cityList: ",$('#cityList').val());
-					//비우고
-					$("#list").empty();				
-					$(json).each(function(index, item){
-						
-						$("#list").append(html);
-					})					
-				}
-			});	// ajax end		
-		}//else end
-	});//click end
-	  */
-	
 	
 	
 </script>
