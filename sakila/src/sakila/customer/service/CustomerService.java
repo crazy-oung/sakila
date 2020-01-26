@@ -25,7 +25,7 @@ public class CustomerService {
 	      customer.setAddressId(addressId);
 	      
 	      customerDao = new CustomerDao();
-	      customerDao.insertCustomer(conn,customer);
+	      customerDao.insertCustomer(customer);
 	      conn.commit();
 	   }catch(Exception e) {
 		   //예외 발생시 롤백

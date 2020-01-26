@@ -14,7 +14,7 @@
 		<!-- 메뉴 -->
 		<div class="column is-2 notification card is-peachy" style="margin:0;">
 			<section class="section">
-			    <div id="menu"></div>
+			    <component v-bind:is="testCompo"></component>
 			</section>
 		</div>
 		<!-- 내용 -->
@@ -322,7 +322,7 @@
 			</div>
 			<hr>
 		  </section>
-		  <div id="foot"></div>
+		  <component :is="footer"></component>
 		</div><!-- 내용 끝 -->
 	</div><!-- columns 끝 -->
 	
@@ -335,8 +335,10 @@
 
 var vm =new Vue({
 	el: "#test",
-   data: {
-		json:{actorRow:"test"}
+   	data: {
+		json:{actorRow:"test"},
+		testCompo : Menu,
+		footer : Footer,
    },
    mounted() {
 	   

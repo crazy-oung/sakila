@@ -21,7 +21,7 @@ public class CustomerDao {
 		int beginRow = (currentPage -1)*ROW_PER_PAGE;
 		System.out.println("currnetPage: "+currentPage+" beginrow: "+beginRow);
 		String sql = "SELECT c.customer_id, c.store_id, c.first_name, c.last_name, c.email, c.active, c.create_date, c.last_update, c.address_id"
-				+ " FROM customer c inner join address a on a.address_id = c.customer_id order by c.customer_id desc limit ?, ?";
+				+ " FROM customer c left outer join address a on a.address_id = c.customer_id order by c.customer_id desc limit ?, ?";
 		try {
 			conn = DBHelper.getConnection();
 			stmt = conn.prepareStatement(sql);
@@ -55,8 +55,9 @@ public class CustomerDao {
 		return list;
 	}
 	
-	public int insertCustomer(Connection conn, Customer customer){
+	public int insertCustomer(Customer customer){
 		System.out.println("::: insertCustomer 실행 :::");
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		int row =0;
 		String sql = "insert into customer(store_id, first_name, last_name, email, active, create_date, last_update, address_id)"

@@ -1,288 +1,259 @@
+
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Sakila : 고객 관리</title>
-<!-- 스타일시트 css 파일 import -->
-<link rel="stylesheet" href="../style/hi.css">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
-<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-</head>
-<body>
-<div class="columns" style="margin:0; height: 100%">
-		<!-- 메뉴 -->
-		<div class="column is-2 notification card is-peachy" style="margin:0;">
-			<section class="section">
-			    <div id="menu"></div>
-			</section>
-		</div>
-		<!-- 내용 -->
-		<div class="column">
-			 <nav class="breadcrumb notification is-lighter-peachy" aria-label="breadcrumbs">
-			  <ul>
-			    <li><a href="#">CUSTOMER</a></li>
-			    <li class="is-active"><a href="#" aria-current="page">고객관리</a></li>
-			  </ul>
-			 </nav>
-			 
-			<section class="is-content">
-	   	 	<h1 class="title is-4 is-spaced">👥 고객 관리</h1>
-			<h2>고객 정보 기입</h2>
-			<hr>
-			<input class="input" type="text" id="countryId" style="display:none">
-			<input class="input"type="text" id="cityId" style="display:none">
-			<div class="columns">
- 				<div class="column">
- 					<!-- 국가 선택 -->
-					국가<br>
-					<div class="select">
-						<select id="countryList"></select>
-					</div><br><hr>
-					주소 <br><input class="input"type="text" id="address" ><hr>
-					지구 <br><input class="input"type="text" id="district" ><hr>
-					우편번호 <br><input class="input"type="text" id="postalCode" ><hr>
-					성 <br><input class="input" type="text" id="lastName" ><hr>
-					이메일 <br><input class="input" type="text" id="email" >		
- 				</div>
- 				<div class="column">
-					<!-- 도시 선택 -->
-					도시<br>
-					<div class="select" id="citys">
-						<select id="cityList"></select>
-					</div><br><hr>
-					상세주소 <br><input class="input"type="text" id="address2" ><hr>
-					번호 <br><input class="input"type="text" id="phone" ><hr>
-					지점<br>
-					<div class="select">
-						<select id="storeId">
-							<option value="1">1</option>
-							<option value="2">2</option>
-						</select>
-					</div><hr>
-					이름 <br><input class="input" type="text" id="firstName" ><hr>
-					<br>
-					<button type="button" class="button is-danger is-light is-fullwidth is-rounded" id="addCustomer"> 회원등록 </button>
- 				</div>
- 			</div>
-			
 
-		
-		<hr>
-		<h2 class="title is-5 has-text-centered">고객 조회</h2>
-		<table class="table-hover is-hoverable is-fullwidth table is-bordered">
-			<thead>
-			<tr>
-				<th class="has-text-centered">번호</th>
-				<th class="has-text-centered">이름</th>
-				<th class="has-text-centered">성</th>
-				<th class="has-text-centered">지점</th>
-				<th class="has-text-centered">활동</th>
-				<th class="has-text-centered">이메일</th>
-				<th class="has-text-centered">생성일</th>
-				<th class="has-text-centered">마지막 수정</th>
-				<th class="has-text-centered">주소번호</th>
-			</tr>
-			</thead>
-			<tbody id="list">
-			</tbody>
-		</table>
-		<button type="button" class="button" id="preBtn">이전</button>
-		<button type="button" class="button" id="nextBtn">다음</button>
-		</section>
-		<div id="foot"></div>
-	</div>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <title>Sakila : 고객 관리</title>
+    <!-- 스타일시트 css 파일 import -->
+    <link rel="stylesheet" href="../style/hi.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+    <div class="columns" style="margin:0; height: 100%">
+        <!-- 메뉴 -->
+        <div class="column is-2 notification card is-peachy" style="margin:0;">
+            <section class="section">
+                <component v-bind:is="testCompo"></component>
+            </section>
+        </div>
+        <!-- 내용 -->
+        <div class="column">
+            <nav class="breadcrumb notification is-lighter-peachy" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="#">CUSTOMER</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">고객관리</a></li>
+                </ul>
+            </nav>
+
+            <section class="is-content">
+                <h1 class="title is-4 is-spaced">👥 고객 관리</h1>
+                <h2>고객 정보 기입</h2>
+                <hr>
+                <div class="columns">
+                    <div class="column">
+                        <!-- 국가 선택 -->
+                        국가<br>
+                        <div class="select">
+                            <select v-model="json.countryId" @change="changeCountry">
+                            	<option selected value="0"> 국가를 선택해주세요. </option>
+                            	<option v-for="item in country" :value="item.countryId">{{ item.country }}</option>
+                            </select>
+                        </div><br>
+                        <hr> 주소 <br><input class="input" type="text" v-model="json.address">
+                        <hr> 지구 <br><input class="input" type="text" v-model="json.district">
+                        <hr> 우편번호 <br><input class="input" type="text" v-model="json.postalCode">
+                        <hr> 성 <br><input class="input" type="text" v-model="json.lastName">
+                        <hr> 이메일 <br><input class="input" type="text" v-model="json.email">
+                    </div>
+                    <div class="column">
+                        <!-- 도시 선택 -->
+                        도시<br>
+                        <div class="select">
+                            <select v-model="json.cityId" @change="changeCity">
+                            	<option selected value="0">도시를 선택해주세요.</option>
+                            	<option v-for="item in city" :value="item.cityId">{{ item.city }} </option>
+                            </select>
+                        </div><br>
+                        <hr> 상세주소 <br><input class="input" type="text" v-model="json.address2">
+                        <hr> 번호 <br><input class="input" type="text" v-model="json.phone">
+                        <hr> 지점 <br>
+                        <div class="select">
+                            <select v-model="json.storeId">
+				              <option selected  value="1">1</option>
+				              <option value="2">2</option>
+				            </select>
+                        </div>
+                        <hr> 이름 <br><input class="input" type="text" v-model="json.firstName">
+                        <hr>
+                        <br>
+                        <button type="button" class="button is-danger is-light is-fullwidth is-rounded" @click="addCustomer"> 회원등록 </button>
+                    </div>
+                </div>
+
+
+
+                <hr>
+                <h2 class="title is-5 has-text-centered">고객 조회</h2>
+                <table class="table-hover is-hoverable is-fullwidth table is-bordered">
+                    <thead>
+                        <tr>
+                            <th class="has-text-centered">번호</th>
+                            <th class="has-text-centered">이름</th>
+                            <th class="has-text-centered">성</th>
+                            <th class="has-text-centered">지점</th>
+                            <th class="has-text-centered">활동</th>
+                            <th class="has-text-centered">이메일</th>
+                            <th class="has-text-centered">생성일</th>
+                            <th class="has-text-centered">마지막 수정</th>
+                            <th class="has-text-centered">주소번호</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list">
+                    	<tr v-for="item in jsons">
+                    		<td>{{item.customerId}}</td>
+                    		<td>{{item.firstName}}</td>
+                    		<td>{{item.lastName}}</td>
+                    		<td>{{item.storeId}}</td>
+                    		<td>{{item.active}}</td>
+                    		<td>{{item.email}}</td>
+                    		<td>{{item.createDate}}</td>
+                    		<td>{{item.lastUpdate}}</td>
+                    		<td>{{item.addressId}}</td>
+                    	</tr>
+                    </tbody>
+                </table>
+                <button type="button" class="button" id="preBtn" v-on:click="preBtnClick">이전</button>
+                <button type="button" class="button" id="nextBtn" v-on:click="nextBtnClick">다음</button>
+            </section>
+            <div id="foot"></div>
+        </div>
+    </div>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="../js/sakilaCRM.js"></script>
 <script>
-	let currentPage = 1;	
-	
-	// country 목록 출력
-	$.ajax({
-		url:"/sakila/address/SelectCountryListAll", 
-		method: "POST",
-		success : function(json){
-				$(json).each(function(index, item){
-				temp="<option value='";
-				temp+=item.countryId;
-				temp+="'>";
-				temp+=item.country;
-				temp+="</option>";
-				$("#countryList").append(temp);
-			});
-		}
-	});	
-	// 나라 선택시 나라 번호 출력 & city list select
-	$("#countryList").change(function(){
-		$("#countryId").val($("#countryList").val());	// countryId값이 있을 장소에 countryList의 값을 넣는다.
-		$("#cityList").empty();
-		// when country selected -> 도시 목록 출력
-		$.ajax({
-			url:"/sakila/address/SelectCityListByCountry", 
-			method: "POST",
-			data : {"countryId" : $("#countryList").val()},
-			success : function(json){
-				$(json).each(function(index, item){
-					temp="<option value='";
-					temp+=item.cityId;
-					temp+="'>";
-					temp+=item.city;
-					temp+="</option>";
-					$("#cityList").append(temp);
-				});
-			}
-		});
-	});
-	
-	// 도시 선택시 도시 번호 출력 
-	$("#cityList").change(function(){
-		$("#cityId").val($("#cityList").val());
-	});
+var currentPage = 1;
+var lastPage = 0;
 
-	// 처음 페이지 열었을 때 customer 목록 출력
-	$.ajax({
-		url: "/sakila/customer/SelectCustomerList",
-		method: "POST",
-		data : { currentPage : currentPage},
-		success : function(json){
-			console.log(json);
-			$(json).each(function(index, item){
-				let html = "<tr>";
-				html += "<td>"+item.customerId+"</td>";
-				html += "<td>"+item.firstName+"</td>";
-				html += "<td>"+item.lastName+"</td>";
-				html += "<td>"+item.storeId+"</td>";
-				html += "<td>"+item.active+"</td>";
-				html += "<td>"+item.email+"</td>";
-				html += "<td>"+item.createDate+"</td>";
-				html += "<td>"+item.lastUpdate+"</td>";
-				html += "<td>"+item.addressId+"</td>";
-				html += "</tr>";
-				$("#list").append(html);
-			})					
-		}, 
-		error : function(){
-			alert("불러오기 실패");
-		}
-	});			
-	
-	//이전 버튼
-	$("#preBtn").click(function(){
-		if(currentPage === 1){
-			alert(" 현재 1페이지 입니다. 더 이상 앞으로 갈 수 없습니다.");
-			return;
-		}
-		currentPage -=1;
-		console.log(currentPage);
-		
-		$("#list").empty();
-		// 목록 출력
-		$.ajax({
-			url: "/sakila/customer/SelectCustomerList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				$(json).each(function(index, item){
-					let html = "<tr>";
-					html += "<td>"+item.customerId+"</td>";
-					html += "<td>"+item.firstName+"</td>";
-					html += "<td>"+item.lastName+"</td>";
-					html += "<td>"+item.storeId+"</td>";
-					html += "<td>"+item.active+"</td>";
-					html += "<td>"+item.email+"</td>";
-					html += "<td>"+item.createDate+"</td>";
-					html += "<td>"+item.lastUpdate+"</td>";
-					html += "<td>"+item.addressId+"</td>";
-					html += "</tr>";
-					$("#list").append(html);
-				})					
-			}
-		});		
-	});
-	
-	// 다음 버튼
-	$("#nextBtn").click(function(){
-		let count = 0;
-		$.ajax({
-			url : "/sakila/address/SelectAddressCount",
-			method : "POST",
-			async : false,
-			success : function(json){
-				console.log(json);
-				count = Number(json);
-			}
-		});
-		
-		let lastPage = Math.ceil(count / 10);
-		if(currentPage == lastPage){
-			alert(" 현재 마지막페이지 입니다. 더 이상 다음으로 갈 수 없습니다.");
-			return;
-		}
-		
-		currentPage +=1;
-		console.log(currentPage);
-		
-		$("#list").empty();
-		// 목록 출력
-		$.ajax({
-			url: "/sakila/customer/SelectCustomerList",
-			method: "POST",
-			data : { currentPage : currentPage},
-			success : function(json){
-				console.log(json);
-				$(json).each(function(index, item){
-					let html = "<tr>";
-					html += "<td>"+item.customerId+"</td>";
-					html += "<td>"+item.firstName+"</td>";
-					html += "<td>"+item.lastName+"</td>";
-					html += "<td>"+item.storeId+"</td>";
-					html += "<td>"+item.active+"</td>";
-					html += "<td>"+item.email+"</td>";
-					html += "<td>"+item.createDate+"</td>";
-					html += "<td>"+item.lastUpdate+"</td>";
-					html += "<td>"+item.addressId+"</td>";
-					html += "</tr>";
-					$("#list").append(html);
-				})					
-			}
-		});		
-	});
-	
-	$("#addCustomer").click(function(){
-		console.log("addCustomer 버튼 clicked"); 
-		currentPage = 1;
-		if($("#cityId").val() === ""){
-			alert("도시를 지정해주세요 !");
-		}else{					
-			$.ajax({
-				url: "/sakila/customer/InsertCustomer",
-				method: "POST", 
-				data: {	cityId: $("#cityId").val(),
-						address: $("#address").val(),
-						address2: $("#address2").val(),
-						district: $("#district").val(),
-						postalCode: $("#postalCode").val(),
-						phone: $("#phone").val(),
-						storeId: $("#storeId").val(),
-						firstName: $("#firstName").val(),
-						lastName: $("#lastName").val(),
-						email: $("#email").val()
-				},
-				success: function(json){
-					console.log("레고레고~");
-					console.log("cityId: "+$("#cityId").val());
-					//비우고
-					$("#list").empty();
-					// 목록 출력
-					getList();
-				},//success end
-			});	// ajax end		
-		}//else end
-	});//click end
-	 
+    var vm = new Vue({
+        el: '.columns',
+        data: {
+			country : [{}],
+			countryId : 0,
+			city : [{}],
+			cityId : 0,
+			jsons : [{}],
+			json : {},
+			testCompo: Menu,
+        },
+        mounted() {
+            // country 목록 출력
+            $.ajax({
+                url: "/sakila/address/SelectCountryListAll",
+                method: "POST",
+                success: function(json) {
+                    vm.country = json;
+                    console.log("vm.country: ", vm.country)
+                }
+            });
+
+            // 처음 페이지 열었을 때 customer 목록 출력
+           getCustomerList();
+        },
+        methods: {
+            // 나라 선택시 나라 번호 출력 & city list select
+            changeCountry: function() {
+            	vm.json.countryId = this.json.countryId;
+             	console.log("vm.json.countryId changed : ", this.json.countryId);
+             	vm.json.cityId=0;
+                $.ajax({
+                    url: "/sakila/address/SelectCityListByCountry",
+                    method: "POST",
+                    data: {
+                        "countryId": vm.json.countryId,
+                    },
+                    success: function(json) {
+                        vm.city = json;
+                        console.log("vm.city: ", vm.city);
+                    }
+                });
+            },
+            // 도시 선택시 도시 번호 출력 
+            changeCity: function() {
+               	vm.json,ityId = this.json.cityId;
+             	console.log("vm.json.cityId changed : ", vm.json.cityId);
+            },
+            preBtnClick: function() {
+                if (currentPage === 1) {
+                    alert(" 현재 1페이지 입니다. 더 이상 앞으로 갈 수 없습니다.");
+                    return;
+                }
+                currentPage -= 1;
+                console.log(currentPage); 
+                getCustomerList(); 
+            },
+            nextBtnClick: function() {
+                
+                if (currentPage == lastPage) {
+                    alert(" 현재 마지막페이지 입니다. 더 이상 다음으로 갈 수 없습니다.");
+                    return;
+                }
+
+                currentPage += 1;
+                console.log(currentPage); 
+                getCustomerList();
+                
+            },
+            addCustomer: function() {
+                console.log("addCustomer 버튼 clicked");
+                currentPage = 1;
+                if ($("#cityId").val() === "") {
+                    alert("도시를 지정해주세요 !");
+                } else {
+                	console.log("vm.json : ", vm.json);
+                    $.ajax({
+                        url: "/sakila/customer/InsertCustomer",
+                        method: "POST",
+                        data: {
+                            cityId: vm.json.cityId,
+                            address: vm.json.address,
+                            address2: vm.json.address2,
+                            district: vm.json.district,
+                            postalCode: vm.json.postalCode,
+                            phone: vm.json.phone,
+                            storeId: vm.json.storeId,
+                            firstName: vm.json.firstName,
+                            lastName: vm.json.lastName,
+                            email: vm.json.email,
+                        },
+                        success: function(json) { 
+                        	console.log("입력 완");
+                            // 목록 출력
+                            getCustomerList();
+                        }, //success end
+                    }); // ajax end    
+                } //else end
+            }
+        }
+    });
+    
+function getCustomerList(){
+	let count = 0;
+    $.ajax({
+        url: "/sakila/address/SelectAddressCount",
+        method: "POST",
+        async: false,
+        success: function(json) {
+            console.log(json);
+            count = Number(json);
+        }
+    });
+
+    let lastPage = Math.ceil(count / 10);
+}
+
+
+function getCustomerList(){
+	// 목록 출력
+    $.ajax({
+        url: "/sakila/customer/SelectCustomerList",
+        method: "POST",
+        data: {
+            currentPage: currentPage
+        },
+        success: function(json) {
+            console.log(json);
+            vm.jsons = json;
+            console.log("vm.jsons: ", vm.jsons);
+        }
+    });
+}
+
 </script>
 </html>
